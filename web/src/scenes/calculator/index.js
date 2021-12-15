@@ -16,6 +16,7 @@ export default class index extends Component {
         this.state = {
             stakeFor: '3years',
             price: 5,
+            prices: 0,
         }
     }
 

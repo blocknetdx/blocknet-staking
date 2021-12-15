@@ -5,7 +5,7 @@
   font-weight: 600;
   transition: .3s ease;
 }
-  
+
 .sub {
   color: var(--text-color-1);
   margin: 0;
@@ -63,7 +63,7 @@
   border-radius: 4px;
 }
 
-.inputs .block button:hover ~ .dropdown,
+.inputs .block button:hover~.dropdown,
 .inputs .block .dropdown:hover {
   visibility: visible;
   transition: .7s;
@@ -114,7 +114,6 @@
   padding: 0 18px 0 12px;
   margin: 0 12px;
   font-size: 16px;
-  font-weight: 600;
   transition: .3s ease;
   cursor: pointer;
   position: relative;
