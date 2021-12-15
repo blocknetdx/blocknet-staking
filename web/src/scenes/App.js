@@ -11,26 +11,11 @@ export default class App extends Component {
 
     this.state = {
       isLoaded: false,
-      data: []
     }
   }
 
   componentDidMount() {
-    if (!localStorage.getItem('data')) return console.log('User has no localstorage, update');
-
-    this.setState({
-      data: localStorage.getItem('item')
-    })
-
-    socket.on('update', )
-  }
-
-  updateStorage = (data) => {
-    localStorage.setItem('data', data);
-  }
-
-  onChange = () => {
-    
+    // socket.on('server_status', () => {this.setState({isLoaded: !this.state.isLoaded})});
   }
 
   render() {

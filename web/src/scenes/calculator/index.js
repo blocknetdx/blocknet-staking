@@ -32,7 +32,6 @@ export default class index extends Component {
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
                             <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} /> 
-                            <p>current</p>
                         </div>
                     </div>
 
@@ -41,7 +40,7 @@ export default class index extends Component {
                     <div className={styles.block}> 
                         <p className={styles.pre}>Stake for:</p>
                         <button className={styles.input}>
-                            <Countup end={parseInt(this.state.stakeFor)} duration={0.2} />&nbsp;{this.state.stakeFor.replace(/\d*/g,'')}
+                            {parseInt(this.state.stakeFor) + " " + this.state.stakeFor.replace(/\d*/g,'')}
                             <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
@@ -60,7 +59,7 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>Price in $USD:</p>
                         <button className={styles.input}>
-                            $<Countup end={this.state.price} duration={0.2} decimals={2} />
+                            ${this.state.price.toFixed(2)}
                             <p>current</p>
                             <Arrow right="6" />
                         </button>
@@ -125,7 +124,7 @@ export default class index extends Component {
                 </div>
 
                 <div className={styles.bottom}>
-                    <h2>Staking Rewards</h2>
+                    <h2 className={styles.title}>Staking Rewards</h2>
 
                     <div className={styles.blocks}>
                         <div className={styles.block}>
@@ -151,14 +150,16 @@ export default class index extends Component {
 
                     <div className={styles.text}>
                         <div className={styles.area}>
-                            <h2 className={styles.title}>Probability of Earning a Reward</h2>
-                        
+                            <p className={styles.txt}>
+                            <h2 className={`${styles.title} ${styles.t_one}`}>Probability of Earning a Reward</h2>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
                         </div>
 
                         <div className={styles.area}>
-                            <h2 className={styles.title}>Probability of Earning a Reward</h2>
-                            <p className={styles.txt}>
-
+                            <p className={`${styles.txt} ${styles.txt2}`}>
+                            <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                             </p>
                         </div>
                     </div>
