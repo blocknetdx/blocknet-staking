@@ -14,6 +14,7 @@ export default class index extends Component {
         super(props);
 
         this.state = {
+            block: '1.000',
             stakeFor: '3years',
             price: 5,
             prices: 0,
@@ -29,10 +30,10 @@ export default class index extends Component {
                 <div className={styles.inputs}>
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
-                        <button className={styles.input} disabled>
-                            <Countup end="1.000" duration={0.2} decimals={3} />
+                        <div className={styles.input}>
+                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} /> 
                             <p>current</p>
-                        </button>
+                        </div>
                     </div>
 
                     <span className={styles.tidle}>~</span>
@@ -59,31 +60,32 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>Price in $USD:</p>
                         <button className={styles.input}>
-                            $<Countup end="5.00" duration={0.2} decimals={2} />
+                            $<Countup end={this.state.price} duration={0.2} decimals={2} />
                             <p>current</p>
+                            <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 4.00})}>
                                 <p>$4.00</p>
                                 <small>-20% <span className={styles.emoji}>💪</span></small>
                             </span>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 5.00})}>
                                 <p>$5.00</p>
                                 <small>current <span className={styles.emoji}>🙂</span></small>
                             </span>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 7.50})}>
                                 <p>$7.50</p>
                                 <small>+50% <span className={styles.emoji}>😋</span></small>
                             </span>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 10.00})}>
                                 <p>$10.00</p>
                                 <small>+100% <span className={styles.emoji}>😝</span></small>
                             </span>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 20.00})}>
                                 <p>$20.00</p>
                                 <small>+200% <span className={styles.emoji}>🤑</span></small>
                             </span>
-                            <span className={styles.item}>
+                            <span className={styles.item} onClick={e => this.setState({price: 100.00})}>
                                 <p>$100.00</p>
                                 <small>+1000% <span className={styles.emoji}>🚀</span></small>
                             </span>
@@ -92,34 +94,74 @@ export default class index extends Component {
                 </div>
 
                 <div className={`${styles.outputs}`}>
-                <div className={styles.block}>
-                    <p>Daily earnings estimate:</p>
-                    <h4>$<Countup end="23.80" duration={0.3} decimals={2} /></h4>
-                    <small>4.76 block</small>
+                    <div className={styles.block}>
+                        <p>Daily earnings estimate:</p>
+                        <h4>$<Countup end="23.80" duration={0.3} decimals={2} /></h4>
+                        <small>4.76 block</small>
+                    </div>
+
+                    <div className={styles.block}>
+                        <p>Monthly earnings estimate:</p>
+                        <h4>$<Countup end="727.90" duration={0.3} decimals={2} /></h4>
+                        <small>4.76 block</small>
+                    </div>
+
+                    <div className={styles.block}>
+                        <p>Yearly earnings estimate:</p>
+                        <h4>$<Countup end="8686.80" duration={0.3} decimals={2} /></h4>
+                        <small>4.76 block</small>
+                    </div>
+
+                    <div className={styles.block}>
+                        <p>3 years staking rewards estimate:</p>
+                        <h4>$<Countup end="26060.40" duration={0.3} decimals={2} /></h4>
+                        <small>4.76 block</small>
+                    </div>
+
+                    <div className={styles.block}>
+                        <p>Current APR:</p>
+                        <h4><Countup end="17.80" duration={0.3} decimals={2} />%</h4>
+                    </div>
                 </div>
 
-                <div className={styles.block}>
-                    <p>Monthly earnings estimate:</p>
-                    <h4>$<Countup end="727.90" duration={0.3} decimals={2} /></h4>
-                    <small>4.76 block</small>
-                </div>
+                <div className={styles.bottom}>
+                    <h2>Staking Rewards</h2>
 
-                <div className={styles.block}>
-                    <p>Yearly earnings estimate:</p>
-                    <h4>$<Countup end="8686.80" duration={0.3} decimals={2} /></h4>
-                    <small>4.76 block</small>
-                </div>
+                    <div className={styles.blocks}>
+                        <div className={styles.block}>
+                            <span className={styles.title}>Current total supply of block</span>
+                            <span className={styles.sub}>7.75 million</span>
+                        </div>
 
-                <div className={styles.block}>
-                    <p>3 years staking rewards estimate:</p>
-                    <h4>$<Countup end="26060.40" duration={0.3} decimals={2} /></h4>
-                    <small>4.76 block</small>
-                </div>
+                        <div className={styles.block}>
+                            <span className={styles.title}>Current BLOCK staking</span>
+                            <span className={styles.sub}>2.93 million</span>
+                        </div>
 
-                <div className={styles.block}>
-                    <p>Current APR:</p>
-                    <h4><Countup end="17.80" duration={0.3} decimals={2} />%</h4>
-                </div>
+                        <div className={styles.block}>
+                            <span className={styles.title}>Market cap</span>
+                            <span className={styles.sub}>$58.83 million</span>
+                        </div>
+
+                        <div className={styles.block}>
+                            <span className={styles.title}>Block time</span>
+                            <span className={styles.sub}>60 seconds</span>
+                        </div>
+                    </div>
+
+                    <div className={styles.text}>
+                        <div className={styles.area}>
+                            <h2 className={styles.title}>Probability of Earning a Reward</h2>
+                        
+                        </div>
+
+                        <div className={styles.area}>
+                            <h2 className={styles.title}>Probability of Earning a Reward</h2>
+                            <p className={styles.txt}>
+
+                            </p>
+                        </div>
+                    </div>
 
                 </div>
             </div>
