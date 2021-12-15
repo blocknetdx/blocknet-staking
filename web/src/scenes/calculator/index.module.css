@@ -145,7 +145,7 @@
 }
 
 .inputs .block .input .arrow {
-  color: var(--text-color-1);
+  transform: rotate(-91deg);
   position: absolute;
   right: 20px;
   font-size: 14px;
@@ -153,8 +153,11 @@
   transition: .3s ease;
 }
 
+.inputs .block .input .arrow path {
+  fill: var(--text-color-1) !important;
+}
+
 .inputs .block .input .arrow:hover {
-  color: var(--text-color-0);
   margin-top: 6px;
 }
 

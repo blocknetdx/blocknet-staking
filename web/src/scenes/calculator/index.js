@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-
-/* dis is css */
 import styles from './index.module.css';
+
+const Arrow = (props) => (
+    <svg width="14" height="12" viewBox="0 0 10 11" className={styles.arrow} style={{right: props.right || '', top: props.top || ''}}>
+      <path d="M0.999998 7.23205C-0.333335 6.46225 -0.333333 4.53775 1 3.76795L6.25 0.736859C7.58333 -0.032941 9.25 0.929311 9.25 2.46891V8.53109C9.25 10.0707 7.58333 11.0329 6.25 10.2631L0.999998 7.23205Z" fill="#0F0F0F"/>
+    </svg>
+);
 
 export default class index extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            stakeFor: '3 years',
+            stakeFor: '3years',
             price: 5,
         }
     }
+
     render() {
         return (
             <div className={`container`}>
@@ -33,20 +36,20 @@ export default class index extends Component {
 
                     <span className={styles.tidle}>~</span>
 
-                    <div className={styles.block}>
+                    <div className={styles.block}> 
                         <p className={styles.pre}>Stake for:</p>
                         <button className={styles.input}>
-                            <Countup end={parseInt(this.state.stakeFor)} duration={0.2} />&nbsp;{this.state.stakeFor.replace(/\D/g,'')}
-                            <FontAwesomeIcon className={styles.arrow} icon={faChevronDown} />
+                            <Countup end={parseInt(this.state.stakeFor)} duration={0.2} />&nbsp;{this.state.stakeFor.replace(/\d*/g,'')}
+                            <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item} onClick={e => this.setState={year: '1'}}><p>1 month</p></span>
-                            <span className={styles.item}><p>3 month</p></span>
-                            <span className={styles.item}><p>6 month</p></span>
-                            <span className={styles.item}><p>1 year</p></span>
-                            <span className={styles.item}><p>3 years</p></span>
-                            <span className={styles.item}><p>5 years</p></span>
-                            <span className={styles.item}><p>10 years</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1month'})}><p>1 month</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3months'})}><p>3 months</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '6months'})}><p>6 months</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1year'})}><p>1 year</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3years'})}><p>3 years</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '5years'})}><p>5 years</p></span>
+                            <span className={styles.item} onClick={e => this.setState({stakeFor: '10years'})}><p>10 years</p></span>
                         </div>
                     </div>
 
@@ -57,7 +60,6 @@ export default class index extends Component {
                         <button className={styles.input}>
                             $<Countup end="5.00" duration={0.2} decimals={2} />
                             <p>current</p>
-                            <FontAwesomeIcon className={styles.arrow} icon={faChevronDown} />
                         </button>
                         <div className={styles.dropdown}>
                             <span className={styles.item}>
