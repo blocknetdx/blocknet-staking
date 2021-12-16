@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Countup from 'react-countup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './index.module.css';
 
