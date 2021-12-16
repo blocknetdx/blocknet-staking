@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
+import socket from '../../helpers/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './index.module.css';
 
@@ -23,6 +24,30 @@ export default class index extends Component {
             prices: 0,
         }
     }
+
+    // Initialization(s) that requires DOM nodes should go here
+    componentDidMount()
+    {
+        // Let the server know we are in
+        socket.on('connect', function() {
+            socket.send('[hello] ');
+        });
+
+
+        // Listen the server for messages
+        socket.on('message', (msg) =>
+        {
+            // Chat clear 
+            if( msg.startsWith("[response]") ) 
+            {
+                msg = msg.replace("[response] ", "");
+                console.log('socket-io response: ' + msg);
+
+                
+            }
+        });
+    }
+
 
     render() {
         return (
@@ -122,7 +147,7 @@ export default class index extends Component {
 
                     <div className={`${styles.block}`}>
                         <p>Current APR: <FontAwesomeIcon className={styles.icon} icon={faQuestionCircle} />
-                            <div className={styles.apr}>525600 / ([total BLOCK staking on the network] * 100)</div>
+                            <span className={styles.apr}>525600 / ([total BLOCK staking on the network] * 100)</span>
                         </p>
                         <h4><Countup end="17.80" duration={0.3} decimals={2} />%</h4>
                     </div>
