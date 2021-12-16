@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
+import socket from '../../helpers/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +24,30 @@ export default class index extends Component {
             prices: 0,
         }
     }
+
+    // Initialization(s) that requires DOM nodes should go here
+    componentDidMount()
+    {
+        // Let the server know we are in
+        socket.on('connect', function() {
+            socket.send('[hello] ');
+        });
+
+
+        // Listen the server for messages
+        socket.on('message', (msg) =>
+        {
+            // Chat clear 
+            if( msg.startsWith("[response]") ) 
+            {
+                msg = msg.replace("[response] ", "");
+                console.log('socket-io response: ' + msg);
+
+                
+            }
+        });
+    }
+
 
     render() {
         return (
