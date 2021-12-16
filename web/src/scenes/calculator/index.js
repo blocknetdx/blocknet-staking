@@ -122,7 +122,7 @@ export default class index extends Component {
 
                     <div className={`${styles.block}`}>
                         <p>Current APR: <FontAwesomeIcon className={styles.icon} icon={faQuestionCircle} />
-                            <div className={styles.apr}>525600 / ([total BLOCK staking on the network] * 100)</div>
+                            <span className={styles.apr}>525600 / ([total BLOCK staking on the network] * 100)</span>
                         </p>
                         <h4><Countup end="17.80" duration={0.3} decimals={2} />%</h4>
                     </div>
