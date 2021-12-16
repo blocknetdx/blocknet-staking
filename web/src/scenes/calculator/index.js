@@ -31,7 +31,7 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
-                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} /> 
+                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} type="number"/> 
                         </div>
                     </div>
 
@@ -150,17 +150,17 @@ export default class index extends Component {
 
                     <div className={styles.text}>
                         <div className={styles.area}>
-                            <p className={styles.txt}>
-                            <h2 className={`${styles.title} ${styles.t_one}`}>Probability of Earning a Reward</h2>
+                            <span className={styles.txt}>
+                            <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                            </span>
                         </div>
 
                         <div className={styles.area}>
-                            <p className={`${styles.txt} ${styles.txt2}`}>
-                            <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
+                            <span className={`${styles.txt} ${styles.txt2}`}>
+                            <h2 className={`${styles.title} ${styles.t_one}`}>Probability of Earning a Reward</h2>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
+                            </span>
                         </div>
                     </div>
 

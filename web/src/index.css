@@ -5,10 +5,14 @@
   --theme-color: #051937;
   --color-green: #64c264;
 
-  --bg-color-0: #242424; /* Background */
-  --bg-color-1: #383838; /* Input bg */
-  --bg-color-2: #464646; /* Hover stuff */
-  --bg-color-3: #1d1d1d; /* Background */
+  --bg-color-0: #242424;
+  /* Background */
+  --bg-color-1: #383838;
+  /* Input bg */
+  --bg-color-2: #464646;
+  /* Hover stuff */
+  --bg-color-3: #1d1d1d;
+  /* Background */
 
   --border-0: #3b3b3b;
   --border-1: #5a5a5a;
@@ -17,19 +21,18 @@
   --text-color-1: #ccc;
   --text-color-2: #8a8a8a;
 
-  --loader-0: #525151; /* Loader bg */
+  --loader-0: #525151;
+  /* Loader bg */
 }
 
 body {
   font-family: 'Source Sans Pro', sans-serif;
   background: var(--bg-color-0);
   padding: 0;
-  margin: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  max-width: 1200px;
 }
