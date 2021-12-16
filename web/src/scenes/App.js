@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Loader from '../components/loader/index';
 import Calculator from './calculator/index';
 
-import socket from '../helpers/socket';
+// import socket from '../helpers/socket';
 
 export default class App extends Component {
   constructor(props) {
