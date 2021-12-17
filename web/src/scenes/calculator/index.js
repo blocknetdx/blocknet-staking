@@ -19,15 +19,35 @@ export default class index extends Component {
         this.state = {
             block: '1.000',
             stakeFor: '3years',
-            price: 5,
-            calcs: []
+            price: '5.00',
+            calcs: [],
+            usdPrices: []
         }
+
+        this.usdPrices = this.usdPrices.bind(this);
     }
 
     componentDidMount() {
         // Then mby do the calcs here from the props, example:
         let example = this.props.data.a * this.props.data.b;
         this.setState({calcs: example})
+    }
+
+    usdPrices = () => {
+        let all = [];
+        let prices = ['4.00', '5.00', '7.50', '10.00', '20.00', '100.00'];
+        let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
+
+        for(let i = 0; i < prices.length; i++) {
+            let percentage = Math.round((prices[i] - this.state.price) / this.state.price * 100);
+            all.push(
+                <span className={styles.item} onClick={e => this.setState({price: prices[i]})} key={i}>
+                    <p>${prices[i]}</p>
+                    <small>{prices[i] === this.state.price ? 'current ' : percentage.toFixed(0) + '% '}<span className={styles.emoji}>{emojis[i]}</span></small>
+                </span>
+            )
+        }
+        return(all);
     }
 
     render() {
@@ -72,12 +92,13 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>Price in $USD:</p>
                         <button className={styles.input}>
-                            ${this.state.price.toFixed(2)}
+                            ${this.state.price}
                             <p>current</p>
                             <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item} onClick={e => this.setState({price: 4.00})}>
+                            {this.usdPrices()}
+                            {/* <span className={styles.item} onClick={e => this.setState({price: 4.00})}>
                                 <p>$4.00</p>
                                 <small>-20% <span className={styles.emoji}>💪</span></small>
                             </span>
@@ -100,7 +121,7 @@ export default class index extends Component {
                             <span className={styles.item} onClick={e => this.setState({price: 100.00})}>
                                 <p>$100.00</p>
                                 <small>+1000% <span className={styles.emoji}>🚀</span></small>
-                            </span>
+                            </span> */}
                         </div>
                     </div>
                 </div>
