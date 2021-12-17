@@ -21,17 +21,54 @@ export default class index extends Component {
             stakeFor: '3 years',
             price: '5.00',
             calcs: [],
-            usdPrices: []
-        }
+            usdPrices: [],
+
+            userOutputs: {daily: '123', monthly: '321'}
+        };
+
 
         this.usdPrices = this.usdPrices.bind(this);
         this.onMonths = this.onMonths.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount() 
+    {
+
         // Then mby do the calcs here from the props, example:
         let example = this.props.data.a * this.props.data.b;
-        this.setState({calcs: example})
+        
+        // Message from socketio
+        let msg = this.props.data;
+        
+        // We recieved price data from server 
+        if( msg.startsWith("[price]") ) 
+        {
+            msg = msg.replace("[price] ", "");
+            console.log('socket-io response: ' + msg);
+            
+            // Update front-end
+            this.setState({price: msg});
+        }
+        
+        // We recieved total blocket supply from server 
+        if( msg.startsWith("[supply]") ) 
+        {
+            msg = msg.replace("[supply] ", "");
+            console.log('socket-io response: ' + msg);
+            
+            // Update front-end
+            //this.setState({value: msg});
+        }
+        
+        // We recieved blocknet staking amount
+        if( msg.startsWith("[staking]") ) 
+        {
+            msg = msg.replace("[staking] ", "");
+            console.log('socket-io response: ' + msg);
+            
+            // Update front-end
+            //this.setState({value: msg});
+        }
     }
 
     usdPrices = () => {
@@ -112,13 +149,13 @@ export default class index extends Component {
                 <div className={`${styles.outputs}`}>
                     <div className={styles.block}>
                         <p>Daily earnings estimate:</p>
-                        <h4>$<Countup end="23.80" duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.userOutputs.daily} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Monthly earnings estimate:</p>
-                        <h4>$<Countup end="727.90" duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.userOutputs.monthly} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 

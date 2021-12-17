@@ -49,9 +49,11 @@ def handle_message(data):
     # Listen for socket messages 
 
     # A client has connected to our webpage
-    if starts(data, '[hello]'):
-        print(' [#] Client connected! Sending response..')
-        socketio.emit('message', '[response] hello from python! Price is: ' + str(api.price))
+    if starts(data, '[connection]'):
+        print(' [#] Client connected.')
+        socketio.emit('message', '[price] ' + str(api.price))
+        socketio.emit('message', '[supply] ' + str(api.supply))
+        socketio.emit('message', '[staking] ' + str(api.staking))
 
 
 
@@ -59,7 +61,7 @@ def handle_message(data):
 def serve(path):
     # Rename this to '/' on deployment
 
-    return send_from_directory(app.static_folder,'index.html')
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 
@@ -72,6 +74,6 @@ if __name__ == '__main__':
 
     # Change this on deployment 
     socketio.run(app, host='0.0.0.0', port=5001)
-    
+
     # '0.0.0.0'
     # 'localhost'
