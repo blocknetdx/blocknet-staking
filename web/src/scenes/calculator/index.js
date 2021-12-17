@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
-import socket from '../../helpers/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle, faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './index.module.css';
 
@@ -18,48 +17,67 @@ export default class index extends Component {
         super(props);
 
         this.state = {
-            block: '1.000',
-            stakeFor: '3years',
-            price: 5,
-            prices: 0,
+            block: 1,
+            stakeFor: '3 years',
+            price: '5.00',
+            calcs: [],
+            usdPrices: []
         }
+
+        this.usdPrices = this.usdPrices.bind(this);
+        this.onMonths = this.onMonths.bind(this);
     }
 
-    // Initialization(s) that requires DOM nodes should go here
-    componentDidMount()
-    {
-        // Let the server know we are in
-        socket.on('connect', function() {
-            socket.send('[hello] ');
-        });
-
-
-        // Listen the server for messages
-        socket.on('message', (msg) =>
-        {
-            // Chat clear 
-            if( msg.startsWith("[response]") ) 
-            {
-                msg = msg.replace("[response] ", "");
-                console.log('socket-io response: ' + msg);
-
-                
-            }
-        });
+    componentDidMount() {
+        // Then mby do the calcs here from the props, example:
+        let example = this.props.data.a * this.props.data.b;
+        this.setState({calcs: example})
     }
 
+    usdPrices = () => {
+        let all = [];
+        let prices = ['4.00', '5.00', '7.50', '10.00', '20.00', '100.00'];
+        let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
+
+        for(let i = 0; i < prices.length; i++) {
+            let percentage = Math.round((prices[i] - this.state.price) / this.state.price * 100);
+            all.push(
+                <span className={styles.item} onClick={e => this.setState({price: prices[i]})} key={i}>
+                    <p>${prices[i]}</p>
+                    <small>{prices[i] === this.state.price ? 'current ' : percentage.toFixed(0) + '% '}<span className={styles.emoji}>{emojis[i]}</span></small>
+                </span>
+            )
+        }
+        return(all);
+    }
+
+    onMonths = () => {
+        let all = [];
+        let time = ['1 month', '3 months', '6 months', '1 year', '3 years', '5 years', '10 years'];
+
+        for(let i = 0; i < time.length; i++) {
+            all.push(
+                <span className={styles.item} onClick={e => this.setState({stakeFor: time[i]})} key={i}><p>{time[i]}</p><small>{this.state.stakeFor === time[i] ? 'current' : null}</small></span>
+            )
+        }
+        return(all);
+    }
 
     render() {
         return (
             <div className={`container`}>
-                <h2 className={styles.title}>Blocknet Staking Calculator</h2>
-                <p className={styles.sub}>With the tool below you can calculate your staking reward in $BLOCK.</p>
-            
+                <h4>Example props: {this.state.calcs}</h4> {/* Example, remove this later on */}
+                <div className={styles.top}>
+                    <h2 className={styles.title}>Blocknet Staking Calculator</h2>
+                    <p className={styles.sub}>With the tool below you can calculate your staking reward in $BLOCK.</p>
+                </div>
+
                 <div className={styles.inputs}>
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
-                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} type="number"/> 
+                            <input value={this.state.block.toFixed(3)} onChange={e => this.setState({block: e.target.value})} type="number"/> 
+                            <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
                     </div>
 
@@ -68,17 +86,11 @@ export default class index extends Component {
                     <div className={styles.block}> 
                         <p className={styles.pre}>Stake for:</p>
                         <button className={styles.input}>
-                            {parseInt(this.state.stakeFor) + " " + this.state.stakeFor.replace(/\d*/g,'')}
+                            {this.state.stakeFor}
                             <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1month'})}><p>1 month</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3months'})}><p>3 months</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '6months'})}><p>6 months</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1year'})}><p>1 year</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3years'})}><p>3 years</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '5years'})}><p>5 years</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '10years'})}><p>10 years</p></span>
+                            {this.onMonths()}
                         </div>
                     </div>
 
@@ -87,35 +99,12 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>Price in $USD:</p>
                         <button className={styles.input}>
-                            ${this.state.price.toFixed(2)}
+                            ${this.state.price}
                             <p>current</p>
                             <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item} onClick={e => this.setState({price: 4.00})}>
-                                <p>$4.00</p>
-                                <small>-20% <span className={styles.emoji}>💪</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 5.00})}>
-                                <p>$5.00</p>
-                                <small>current <span className={styles.emoji}>🙂</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 7.50})}>
-                                <p>$7.50</p>
-                                <small>+50% <span className={styles.emoji}>😋</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 10.00})}>
-                                <p>$10.00</p>
-                                <small>+100% <span className={styles.emoji}>😝</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 20.00})}>
-                                <p>$20.00</p>
-                                <small>+200% <span className={styles.emoji}>🤑</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 100.00})}>
-                                <p>$100.00</p>
-                                <small>+1000% <span className={styles.emoji}>🚀</span></small>
-                            </span>
+                            {this.usdPrices()}
                         </div>
                     </div>
                 </div>
@@ -180,15 +169,15 @@ export default class index extends Component {
 
                     <div className={styles.text}>
                         <div className={styles.area}>
-                            <span className={styles.txt}>
-                            <h2 className={`${styles.title} ${styles.t_one}`}>Probability of Earning a Reward</h2>
+                            <span className={`${styles.txt} ${styles.txt2}`}>
+                            <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                             </span>
                         </div>
 
                         <div className={styles.area}>
-                            <span className={`${styles.txt} ${styles.txt2}`}>
-                            <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
+                            <span className={styles.txt}>
+                            <h2 className={`${styles.title} ${styles.t_one}`}>ROI</h2>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                             </span>
                         </div>

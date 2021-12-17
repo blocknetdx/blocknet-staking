@@ -1,4 +1,6 @@
+import config from '../config';
 const io = require("socket.io-client");
-let socket = io("http://localhost:5001");
 
-module.exports = socket;
+let socket = io(config.server.url);
+
+export default socket;
