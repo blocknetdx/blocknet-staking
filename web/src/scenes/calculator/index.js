@@ -17,7 +17,7 @@ export default class index extends Component {
         super(props);
 
         this.state = {
-            block: '1.000',
+            block: 1,
             stakeFor: '3 years',
             price: '5.00',
             calcs: [],
@@ -57,7 +57,7 @@ export default class index extends Component {
 
         for(let i = 0; i < time.length; i++) {
             all.push(
-                <span className={styles.item} onClick={e => this.setState({stakeFor: time[i]})}><p>{time[i]}</p><small>{this.state.stakeFor === time[i] ? 'current' : null}</small></span>
+                <span className={styles.item} onClick={e => this.setState({stakeFor: time[i]})} key={i}><p>{time[i]}</p><small>{this.state.stakeFor === time[i] ? 'current' : null}</small></span>
             )
         }
         return(all);
@@ -76,7 +76,7 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
-                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} type="number"/> 
+                            <input value={this.state.block.toFixed(3)} onChange={e => this.setState({block: e.target.value})} type="number"/> 
                             <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
                     </div>
