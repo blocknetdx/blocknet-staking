@@ -23,7 +23,9 @@ export default class index extends Component {
             calcs: [],
             usdPrices: [],
 
-            userOutputs: {daily: '123', monthly: '321'}
+            userOutputs: {
+                daily: '123', monthly: '321', yearly: '', years3: ''
+            }
         };
 
 
@@ -38,37 +40,22 @@ export default class index extends Component {
         let example = this.props.data.a * this.props.data.b;
         
         // Message from socketio
-        let msg = this.props.data;
-        
-        // We recieved price data from server 
-        if( msg.startsWith("[price]") ) 
+        let json_response = this.props.data;
+
+        // Parse json 
+        const obj = JSON.parse(json_response);
+
+        if(obj.hasOwnProperty('price'))
         {
-            msg = msg.replace("[price] ", "");
-            console.log('socket-io response: ' + msg);
-            
+
+            var res_price = parseFloat(obj.price);
+
+            //console.log('price: ' + res_price.toFixed(2));
+
             // Update front-end
-            this.setState({price: msg});
+            //this.setState({price: res_price.toFixed(2)});
         }
         
-        // We recieved total blocket supply from server 
-        if( msg.startsWith("[supply]") ) 
-        {
-            msg = msg.replace("[supply] ", "");
-            console.log('socket-io response: ' + msg);
-            
-            // Update front-end
-            //this.setState({value: msg});
-        }
-        
-        // We recieved blocknet staking amount
-        if( msg.startsWith("[staking]") ) 
-        {
-            msg = msg.replace("[staking] ", "");
-            console.log('socket-io response: ' + msg);
-            
-            // Update front-end
-            //this.setState({value: msg});
-        }
     }
 
     usdPrices = () => {
@@ -161,13 +148,13 @@ export default class index extends Component {
 
                     <div className={styles.block}>
                         <p>Yearly earnings estimate:</p>
-                        <h4>$<Countup end="8686.80" duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.userOutputs.yearly} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>3 years staking rewards estimate:</p>
-                        <h4>$<Countup end="26060.40" duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.userOutputs.years3} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 

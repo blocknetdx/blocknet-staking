@@ -6,6 +6,7 @@
 
 import __api as api
 
+import json
 from pathlib import Path
 
 from flask_socketio import send
@@ -51,9 +52,17 @@ def handle_message(data):
     # A client has connected to our webpage
     if starts(data, '[connection]'):
         print(' [#] Client connected.')
-        socketio.emit('message', '[price] ' + str(api.price))
-        socketio.emit('message', '[supply] ' + str(api.supply))
-        socketio.emit('message', '[staking] ' + str(api.staking))
+
+        x = {
+            "price": str(api.price),
+            "supply": str(api.supply),
+            "staking": str(api.staking)
+        }
+
+        json_response = json.dumps(x)
+
+        # Echo a json back to client
+        socketio.emit('message', json_response)
 
 
 

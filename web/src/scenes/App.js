@@ -32,6 +32,8 @@ export default class App extends Component {
 
       // Save the message => we'll handle it in calculator/index.js
       this.setState({data:msg})
+
+      console.log('python res: ' + msg);
     });
   };
 
