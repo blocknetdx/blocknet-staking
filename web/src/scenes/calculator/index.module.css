@@ -1,4 +1,4 @@
-.title {
+.top .title {
   color: var(--text-color-0);
   margin: 32px 0 12px 0;
   font-size: 2.5rem;
@@ -7,7 +7,7 @@
   text-align: center;
 }
 
-.sub {
+.top .sub {
   color: var(--text-color-1);
   margin: 0;
   transition: .3s ease;
@@ -140,6 +140,12 @@
   /* z-index: 9999; */
 }
 
+.inputs .block input::-webkit-outer-spin-button,
+.inputs .block input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .inputs .block input:active,
 .inputs .block input:focus {
   outline: none;
@@ -182,6 +188,16 @@
   margin-top: 6px;
 }
 
+.inputs .block .input .num {
+  color: var(--text-color-1);
+  position: absolute;
+  right: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .3s ease;
+  overflow: hidden;
+}
+
 .outputs {
   width: 100%;
   display: flex;
@@ -213,7 +229,7 @@
 }
 
 .outputs .block .apr {
-  width: 350px;
+  width: 340px;
   color: var(--text-color-1);
   background: var(--bg-color-1);
   position: absolute;
@@ -250,7 +266,6 @@
   padding: 12px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .bottom .title {
@@ -346,19 +361,24 @@
   }
 
   .inputs .block .dropdown {
-    width: 105px;
+    width: 95%;
   }
 
-  .inputs .block .dropdown p {
-    font-size: 12px;
+  .inputs {
+    flex-direction: column;
   }
 
-  .inputs .block .dropdown .emoji {
-    display: none;
+  .inputs .block {
+    width: 100%;
+    margin: 0;
+  }
+
+  .inputs .block input {
+    width: 100% !important;
   }
 
   .inputs .block button {
-    width: 105px;
+    width: 95%;
   }
 
   .inputs .pre {
@@ -371,14 +391,20 @@
 
   .outputs {
     text-align: center;
+    justify-content: flex-start;
+  }
+
+  .outputs .block .apr {
+    left: -15px;
   }
 
   .outputs .block p {
     font-size: 13px;
   }
 
-  .bottom {
-    text-align: center;
+  .bottom .blocks {
+    justify-content: flex-start;
+    flex-direction: column;
   }
 
   .bottom .blocks .block {
