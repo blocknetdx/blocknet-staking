@@ -1,5 +1,6 @@
 import config from '../config';
 const io = require("socket.io-client");
+
 let socket = io(config.server.url);
 
-module.exports = socket;
+export default socket;

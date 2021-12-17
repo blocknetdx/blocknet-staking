@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
-// import socket from '../../helpers/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons';
@@ -21,37 +20,20 @@ export default class index extends Component {
             block: '1.000',
             stakeFor: '3years',
             price: 5,
-            prices: 0,
+            calcs: []
         }
     }
 
-    // Initialization(s) that requires DOM nodes should go here
-    // componentDidMount()
-    // {
-    //     // Let the server know we are in
-    //     socket.on('connect', function() {
-    //         socket.send('[hello] ');
-    //     });
-
-
-    //     // Listen the server for messages
-    //     socket.on('message', (msg) =>
-    //     {
-    //         // Chat clear 
-    //         if( msg.startsWith("[response]") ) 
-    //         {
-    //             msg = msg.replace("[response] ", "");
-    //             console.log('socket-io response: ' + msg);
-
-                
-    //         }
-    //     });
-    // }
-
+    componentDidMount() {
+        // Then mby do the calcs here from the props, example:
+        let example = this.props.data.a * this.props.data.b;
+        this.setState({calcs: example})
+    }
 
     render() {
         return (
             <div className={`container`}>
+                <h4>Example props: {this.state.calcs}</h4> {/* Example, remove this later on */}
                 <div className={styles.top}>
                     <h2 className={styles.title}>Blocknet Staking Calculator</h2>
                     <p className={styles.sub}>With the tool below you can calculate your staking reward in $BLOCK.</p>
