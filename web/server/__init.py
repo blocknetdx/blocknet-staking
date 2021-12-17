@@ -1,7 +1,10 @@
 """
   __init.py
-    Core back-end
+
+    Backend core
 """
+
+import __api as api
 
 from pathlib import Path
 
@@ -13,7 +16,7 @@ from flask import render_template, request, session
 # Working directory 
 path = Path(Path().resolve())
 
-# Compiled React dir (parent/build)
+# Compiled React dir (<parent>/build)
 static_index = path.parent.absolute() / 'build'
 
 # App init
@@ -27,8 +30,10 @@ socketio = sio(app, async_mode='threading', async_handlers=True, cors_allowed_or
 
 
 
-# String wrapper func
 def starts(var, string):
+
+    # String wrapper function
+
     try:
         if var.startswith(string): return True
         else: return False
@@ -38,32 +43,35 @@ def starts(var, string):
 
 
 
-# Socket messages 
 @socketio.on('message')
 def handle_message(data):
+
+    # Listen for socket messages 
 
     # A client has connected to our webpage
     if starts(data, '[hello]'):
         print(' [#] Client connected! Sending response..')
-        socketio.emit('message', '[response] hello from python!')
-    
+        socketio.emit('message', '[response] hello from python! Price is: ' + str(api.price))
 
 
-# Rename this to '/' on deployment
+
 @app.route("/idx", defaults={'path':'idx'})
 def serve(path):
+    # Rename this to '/' on deployment
+
     return send_from_directory(app.static_folder,'index.html')
 
 
 
-# Init 
 if __name__ == '__main__':
 
+    # init 
     
-    # app.config['SECRET_KEY'] = "1234"
+    # Start an API thread
+    api.start_api_thread()
 
     # Change this on deployment 
-    socketio.run(app, host='localhost', port=5001, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5001)
+    
     # '0.0.0.0'
-    # 
     # 'localhost'
