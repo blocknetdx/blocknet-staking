@@ -18,13 +18,14 @@ export default class index extends Component {
 
         this.state = {
             block: '1.000',
-            stakeFor: '3years',
+            stakeFor: '3 years',
             price: '5.00',
             calcs: [],
             usdPrices: []
         }
 
         this.usdPrices = this.usdPrices.bind(this);
+        this.onMonths = this.onMonths.bind(this);
     }
 
     componentDidMount() {
@@ -45,6 +46,18 @@ export default class index extends Component {
                     <p>${prices[i]}</p>
                     <small>{prices[i] === this.state.price ? 'current ' : percentage.toFixed(0) + '% '}<span className={styles.emoji}>{emojis[i]}</span></small>
                 </span>
+            )
+        }
+        return(all);
+    }
+
+    onMonths = () => {
+        let all = [];
+        let time = ['1 month', '3 months', '6 months', '1 year', '3 years', '5 years', '10 years'];
+
+        for(let i = 0; i < time.length; i++) {
+            all.push(
+                <span className={styles.item} onClick={e => this.setState({stakeFor: time[i]})}><p>{time[i]}</p><small>{this.state.stakeFor === time[i] ? 'current' : null}</small></span>
             )
         }
         return(all);
@@ -73,17 +86,11 @@ export default class index extends Component {
                     <div className={styles.block}> 
                         <p className={styles.pre}>Stake for:</p>
                         <button className={styles.input}>
-                            {parseInt(this.state.stakeFor) + " " + this.state.stakeFor.replace(/\d*/g,'')}
+                            {this.state.stakeFor}
                             <Arrow right="6" />
                         </button>
                         <div className={styles.dropdown}>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1month'})}><p>1 month</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3months'})}><p>3 months</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '6months'})}><p>6 months</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '1year'})}><p>1 year</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '3years'})}><p>3 years</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '5years'})}><p>5 years</p></span>
-                            <span className={styles.item} onClick={e => this.setState({stakeFor: '10years'})}><p>10 years</p></span>
+                            {this.onMonths()}
                         </div>
                     </div>
 
@@ -98,30 +105,6 @@ export default class index extends Component {
                         </button>
                         <div className={styles.dropdown}>
                             {this.usdPrices()}
-                            {/* <span className={styles.item} onClick={e => this.setState({price: 4.00})}>
-                                <p>$4.00</p>
-                                <small>-20% <span className={styles.emoji}>💪</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 5.00})}>
-                                <p>$5.00</p>
-                                <small>current <span className={styles.emoji}>🙂</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 7.50})}>
-                                <p>$7.50</p>
-                                <small>+50% <span className={styles.emoji}>😋</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 10.00})}>
-                                <p>$10.00</p>
-                                <small>+100% <span className={styles.emoji}>😝</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 20.00})}>
-                                <p>$20.00</p>
-                                <small>+200% <span className={styles.emoji}>🤑</span></small>
-                            </span>
-                            <span className={styles.item} onClick={e => this.setState({price: 100.00})}>
-                                <p>$100.00</p>
-                                <small>+1000% <span className={styles.emoji}>🚀</span></small>
-                            </span> */}
                         </div>
                     </div>
                 </div>
