@@ -80,7 +80,7 @@ export default class index extends Component
                     
                     if(!changedPrice) 
                         this.setState( {
-                            price: this.priceStringFormat(currentPrice)
+                            price: this.priceStringFormat(currentPrice).toFixed(2)
                         });
                 }
 
@@ -201,7 +201,7 @@ export default class index extends Component
     {
         changedPrice = true;
         priceSelected = value;
-        this.setState({price: this.priceStringFormat(value)});
+        this.setState({price: this.priceStringFormat(value).toFixed(2)});
 
         // Update the changes
         this.handleChange(this.state.block);
