@@ -68,8 +68,7 @@
   border-radius: 4px;
 }
 
-.inputs .block button:hover~.dropdown,
-.inputs .block .dropdown:hover {
+.inputs .block .dropdown[data-open="true"] {
   visibility: visible;
   transition: .7s;
   top: 94px;
@@ -140,6 +139,8 @@
   /* z-index: 9999; */
 }
 
+.inputs .block input[type=number]::-webkit-inner-spin-button, 
+.inputs .block input[type=number]::-webkit-outer-spin-button,
 .inputs .block input::-webkit-outer-spin-button,
 .inputs .block input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -169,6 +170,16 @@
   right: 28px;
   text-transform: uppercase;
   font-size: 12px;
+}
+
+.inputs .block .input .blocktxt {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 70px;
+  line-height: 50px;
+  margin: 0 8px 0 0;
+  background-color: var(--bg-color-1);
 }
 
 .inputs .block .input .arrow {

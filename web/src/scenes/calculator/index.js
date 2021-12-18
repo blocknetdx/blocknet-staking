@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
 
-import socket from '../../helpers/socket';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons';
+
+import socket from '../../helpers/socket';
 
 import styles from './index.module.css';
 
@@ -28,6 +28,8 @@ export default class index extends Component {
         super(props);
 
         this.state = {
+            monthIsOpen: false,
+            priceIsOpen: false,
             block: 5000,
             stakeFor: '3 years',
             price: '0.00',
@@ -54,12 +56,6 @@ export default class index extends Component {
     // Initialization(s) that requires DOM nodes should go here
     componentDidMount() 
     {
-        // Let the server know we're in
-        socket.on('connect', function() 
-        {
-            socket.send('[connection] ');
-        });
-
         // Listen the server for messages
         socket.on('message', (msg) => 
         {
@@ -110,6 +106,7 @@ export default class index extends Component {
                     totalStaking = parseFloat(obj.staking);
                     ROI = (525600 / totalStaking) * 100;
 
+                    if (totalStaking >= 1.0) this.props.changeProps({isLoaded: true});
                     this.setState({apr: ROI});
 
                     yearly_rewards = this.state.block * (525600 / totalStaking);
@@ -174,7 +171,7 @@ export default class index extends Component {
         for(let i = 0; i < prices.length; i++) 
         {
             all.push(
-                <span className={styles.item} onClick ={() => {this.handlePrice(prices[i])}}  key={i}>
+                <span className={styles.item} onClick ={e => this.setState({priceIsOpen: false}) + this.handlePrice(prices[i])}  key={i}>
                     <p>${prices[i]}</p>
                     <small>{prices[i] === this.state.price ? percentages[i] : percentages[i]}
                     <span className={styles.emoji}>{emojis[i]}</span></small>
@@ -200,7 +197,7 @@ export default class index extends Component {
 
         for(let i = 0; i < time.length; i++) {
             all.push(
-                <span className={styles.item} onClick={() => this.updateWorth(time[i])} key={i}>
+                <span className={styles.item} onClick={e => this.setState({monthIsOpen: false}) + this.updateWorth(time[i])} key={i}>
                     <p>{time[i]}</p>
                     <small>{this.state.stakeFor === time[i] ? 'current' : null}</small>
                 </span>
@@ -239,7 +236,7 @@ export default class index extends Component {
             let time_amount = Number(val.charAt(0));
             
             // Client clicked 10 years
-            if( Number(val.charAt(1)) == 0 )
+            if( Number(val.charAt(1)) === 0 )
                 time_amount = Number(val.charAt(0) + val.charAt(1));
             
             this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
@@ -284,7 +281,8 @@ export default class index extends Component {
                         <div className={styles.input}>
 
                             {/* User is changing block value, point to a cuntion */}
-                            <input value={this.state.block} onChange ={(e) => {this.handleChange(e)}} type="number"/> 
+                            <input value={this.state.block} onChange ={(e) => {this.handleChange(e)}} type="number"/>
+                            <p className={styles.blocktxt}>block</p> 
                             <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
                     </div>
@@ -293,11 +291,11 @@ export default class index extends Component {
 
                     <div className={styles.block}> 
                         <p className={styles.pre}>Stake for:</p>
-                        <button className={styles.input}>
+                        <button className={styles.input} onClick={e => this.setState({monthIsOpen: !this.state.monthIsOpen})}>
                             {this.state.stakeFor}
                             <Arrow right="6" />
                         </button>
-                        <div className={styles.dropdown}>
+                        <div className={styles.dropdown} data-open={this.state.monthIsOpen ? true : false}>
                             {this.onMonths()}
                         </div>
                     </div>
@@ -306,12 +304,12 @@ export default class index extends Component {
                     
                     <div className={styles.block}>
                         <p className={styles.pre}>Price in $USD:</p>
-                        <button className={styles.input}>
+                        <button className={styles.input} onClick={e => this.setState({priceIsOpen: !this.state.priceIsOpen})}>
                             ${this.state.price}
                             <p>current</p>
                             <Arrow right="6" />
                         </button>
-                        <div className={styles.dropdown}>
+                        <div className={styles.dropdown} data-open={this.state.priceIsOpen ? true : false}>
                             {this.usdPrices()}
                         </div>
                     </div>

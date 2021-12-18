@@ -37,6 +37,12 @@
     border-radius: 4px;
 }
 
+.content p {
+    color: var(--text-color-1);
+    padding: 0;
+    margin: 0;
+}
+
 @keyframes loader {
     0% {
         left: -260px;
