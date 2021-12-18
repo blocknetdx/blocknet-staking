@@ -44,6 +44,12 @@ def starts(var, string):
 
 
 
+@socketio.on('disconnect', namespace='/')
+def socket_disconnect():
+    print(' [#] Client disconnected:', request.sid)
+
+
+
 @socketio.on('message')
 def handle_message(data):
 
@@ -51,7 +57,7 @@ def handle_message(data):
 
     # A client has connected to our webpage
     if starts(data, '[connection]'):
-        print(' [#] Client connected.')
+        print(' [#] Client init:', request.sid)
 
         # Format our json data, round up some decimals
         x = {
@@ -63,7 +69,7 @@ def handle_message(data):
         json_response = json.dumps(x)
 
         # Echo the json back to client
-        socketio.emit('message', json_response)
+        socketio.emit('message', json_response, to=request.sid)
 
 
 
