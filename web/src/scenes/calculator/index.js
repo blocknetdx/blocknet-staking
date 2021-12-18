@@ -240,7 +240,9 @@ export default class index extends Component
             if( Number(val.charAt(1)) === 0 )
                 time_amount = Number(val.charAt(0) + val.charAt(1));
             
-            this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
+            if(time_amount > 1) 
+                this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
+                
             this.setState({ yearly: yearlyRewards });
             this.setState({ blockYearly: (yearlyBlock).toFixed(2) });
             
@@ -266,7 +268,7 @@ export default class index extends Component
 
         // This is just to check whether the function call
         // originated from block or price input, the data will be different
-        if(e.hasOwnProperty('target'))
+        if( e.hasOwnProperty('target') ) 
             totalInBlock = e.target.value;
         else
             totalInBlock = e;
@@ -413,7 +415,6 @@ export default class index extends Component
                             </span>
                         </div>
                     </div>
-
                 </div>
             </div>
         )
