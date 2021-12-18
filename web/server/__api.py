@@ -75,7 +75,9 @@ def API_calls():
                 r = requests.get('https://chainz.cryptoid.info/explorer/index.stakes.dws?coin=block')
                 data = r.json()
 
-                for x in data['stakes']: staking += float(x['amount'])
+                for x in data['stakes']: 
+                    if x['amount']: staking += float(x['amount'])
+                    
                 print(' [#] Fetched staking amount:', staking)
 
             last = time()
