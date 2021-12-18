@@ -41,3 +41,12 @@ body {
   text-decoration: none;
   color: #1fa6cf;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-color-1);
+  width: 5px;
+}

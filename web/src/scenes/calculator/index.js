@@ -8,12 +8,13 @@ import socket from '../../helpers/socket';
 import styles from './index.module.css';
 
 let ROI;            
-let totalSupply;    // BLOCK supply
-let totalStaking;   // Total in staking in the network
-let currentPrice;   // Current BLOCK / USD price
-let priceSelected;  // Current selected price by the client
-let yearlyBlock;    // Yearly BLOCK rewards
-let yearlyRewards;  // Yearly USD rewards
+let totalSupply;            // BLOCK supply
+let totalStaking;           // Total in staking in the network
+let currentPrice;           // Current BLOCK / USD price
+let priceSelected;          // Current selected price by the client
+let yearlyBlock;            // Yearly BLOCK rewards
+let yearlyRewards;          // Yearly USD rewards
+var changedPrice = false;   // Has client changed price yet
 
 
 
@@ -76,7 +77,7 @@ export default class index extends Component
                     currentPrice = parseFloat(obj.price);
 
                     // Update frontend
-                    this.setState({price: currentPrice});
+                    if(!changedPrice) this.setState({price: currentPrice});
                 }
 
                 // We have the supply, no further action needed yet
@@ -155,7 +156,7 @@ export default class index extends Component
         ];
 
         let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
-        let percentages = ['-20%', 'current', '+50%', '+100%', '+200%', '+1000%'];
+        let percentages = ['-20% ', 'current ', '+50% ', '+100% ', '+200% ', '+1000% '];
 
         for(let i = 0; i < prices.length; i++) 
         {
@@ -173,6 +174,7 @@ export default class index extends Component
     // Client has changed the price, let's deal with it 
     handlePrice(value)
     {
+        changedPrice = true;
         priceSelected = value;
         this.setState({price: value});
 
@@ -201,8 +203,6 @@ export default class index extends Component
     // Called also when client lands on page, updates the page elements
     updateWorth(val) 
     {
-        console.log('calling updateWorth: ' + val);
-
         this.setState({stakeFor: val})
         let monthly = (yearlyRewards / 12);
 
