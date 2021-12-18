@@ -1,6 +1,10 @@
-import config from '../config';
-const io = require("socket.io-client");
+/* ========
+    Initialize socket connection
+                ===========     */
 
-let socket = io.connect(config.server.url);
+import config from '../config';
+
+const io = require("socket.io-client");
+let socket = io.connect(config.server.url, {reconnection: true});
 
 export default socket;

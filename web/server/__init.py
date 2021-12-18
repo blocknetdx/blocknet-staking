@@ -9,10 +9,8 @@ import __api as api
 import json
 from pathlib import Path
 
-from flask_socketio import send
 from flask_socketio import SocketIO as sio
-from flask import Flask, send_from_directory
-from flask import render_template, request, session
+from flask import Flask, send_from_directory, request 
 
 # Working directory 
 path = Path(Path().resolve())
@@ -34,7 +32,6 @@ socketio = sio(app, async_mode='threading', async_handlers=True, cors_allowed_or
 def starts(var, string):
 
     # String wrapper function
-
     try:
         if var.startswith(string): return True
         else: return False
@@ -61,9 +58,9 @@ def handle_message(data):
 
         # Format our json data, round up some decimals
         x = {
-            "price": str(round(api.price, 3)),
-            "supply": str(round(api.supply, 3)),
-            "staking": str(round(api.staking, 3))
+            "price": str(round(api.price, 2)),
+            "supply": str(round(api.supply, 2)),
+            "staking": str(round(api.staking, 2))
         }
 
         json_response = json.dumps(x)
@@ -86,10 +83,19 @@ if __name__ == '__main__':
     # init 
     
     # Start an API thread
-    api.start_api_thread()
+    api.start_api_thread(socketio)
+
+    # Get domain:port from file 
+    f = open("flask_domain.txt", "r")
+    domain = f.read()
+    f.close()
+
+    domain = domain.split(':')
+    port = domain[1]
+    domain = domain[0]
 
     # Change this on deployment 
-    socketio.run(app, host='0.0.0.0', port=5001)
+    socketio.run(app, host=domain, port=port)
 
     # '0.0.0.0'
     # 'localhost'

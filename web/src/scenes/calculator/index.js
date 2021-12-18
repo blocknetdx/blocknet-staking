@@ -5,17 +5,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons';
 
 import socket from '../../helpers/socket';
-
 import styles from './index.module.css';
 
-let ROI;
-let yearly_rewards;
-let totalStaking;
-let totalSupply;
-let currentPrice;
-let priceSelected;
+let ROI;            
+let totalSupply;    // BLOCK supply
+let totalStaking;   // Total in staking in the network
+let currentPrice;   // Current BLOCK / USD price
+let priceSelected;  // Current selected price by the client
+let yearlyBlock;    // Yearly BLOCK rewards
+let yearlyRewards;  // Yearly USD rewards
 
-const Arrow = (props) => (
+
+
+const Arrow = (props) => 
+(
+    // Dropdown arrow stuff
     <svg width="14" height="12" viewBox="0 0 10 11" className={styles.arrow} style={{right: props.right || '', top: props.top || ''}}>
       <path d="M0.999998 7.23205C-0.333335 6.46225 -0.333333 4.53775 1 3.76795L6.25 0.736859C7.58333 -0.032941 9.25 0.929311 9.25 2.46891V8.53109C9.25 10.0707 7.58333 11.0329 6.25 10.2631L0.999998 7.23205Z" fill="#0F0F0F"/>
     </svg>
@@ -23,31 +27,27 @@ const Arrow = (props) => (
 
 
 
-export default class index extends Component {
-    constructor(props) {
+export default class index extends Component 
+{
+    constructor(props) 
+    {
         super(props);
 
+        // Some states to update client info
         this.state = {
+            block: 5000,
             monthIsOpen: false,
             priceIsOpen: false,
-            block: 5000,
-            stakeFor: '3 years',
-            price: '0.00',
+            data:{},
             calcs: [],
             usdPrices: [],
-
-            data:{},
-            
-            currentSupply:'0.0',
-            currentStaking:'0.0',
-            marketCap:'0.0',
-
-            apr: '0.0',
-            estimate: '3 years staking rewards estimate:',
-
+            price: '0.0',
+            stakeFor: '3 years',
+            blockDaily: '0.0', blockMonthly: '0.0', blockYearly: '0.0', blockMore: '0.0',
+            currentSupply:'0.0', currentStaking:'0.0', marketCap:'0.0',
+            apr: '0.0', estimate: '3 years staking rewards estimate:',
             daily: '0.0', monthly: '0.0', yearly: '0.0', years3: '0.0'
         };
-
 
         this.usdPrices = this.usdPrices.bind(this);
         this.onMonths = this.onMonths.bind(this);
@@ -59,19 +59,10 @@ export default class index extends Component {
         // Listen the server for messages
         socket.on('message', (msg) => 
         {
-            console.log('python response: ' + msg);
-
             this.setState({data:msg})
 
             // Message from socketio 
             let json_response = this.state.data; 
-
-            console.log('datatype:' + String( typeof(json_response) ) ); 
-
-            if( String( typeof(json_response) ) === 'object' )
-            {
-                console.log('data:' + JSON.stringify(json_response) );
-            }
 
             // Check if we got some data and not an empty object
             if( String( typeof(json_response) ) === 'string' )
@@ -83,20 +74,15 @@ export default class index extends Component {
                 if(obj.hasOwnProperty('price'))
                 {
                     currentPrice = parseFloat(obj.price);
-                    console.log('price: ' + currentPrice);
 
                     // Update frontend
                     this.setState({price: currentPrice});
                 }
 
-                // We have the supply
+                // We have the supply, no further action needed yet
                 if(obj.hasOwnProperty('supply'))
                 {
                     totalSupply = parseFloat(obj.supply);
-                    console.log('supply: ' + totalSupply);
-
-                    // Update frontend
-                    //this.setState({price: res_price});
                 }
 
                 // We have total staking amount of blocknet, we now have everything we need
@@ -109,10 +95,11 @@ export default class index extends Component {
                     if (totalStaking >= 1.0) this.props.changeProps({isLoaded: true});
                     this.setState({apr: ROI});
 
-                    yearly_rewards = this.state.block * (525600 / totalStaking);
+                    yearlyBlock = ( this.state.block * (525600 / totalStaking) );
+                    yearlyRewards = this.state.block * (525600 / totalStaking) * currentPrice;
                     
                     // Update frontend
-                    this.setState({yearly: yearly_rewards});
+                    this.setState({yearly: yearlyRewards});
                     
                     // Supply is going up all the time so just / 1M
                     let fixedSupply = (totalSupply / 1000000).toFixed(2);
@@ -155,9 +142,12 @@ export default class index extends Component {
         });
     }
 
-    usdPrices = () => {
+    // The dropdown menu
+    usdPrices = () => 
+    {
         let all = [];
-        let prices = [
+        let prices = 
+        [
             (currentPrice * 0.8).toFixed(2), 
             (currentPrice * 1.0).toFixed(2),
             (currentPrice * 1.5).toFixed(2),
@@ -165,8 +155,9 @@ export default class index extends Component {
             (currentPrice * 3.0).toFixed(2),
             (currentPrice * 11.0).toFixed(2)
         ];
-        let percentages = ['-20%', 'current', '+50%', '+100%', '+200%', '+1000%'];
+
         let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
+        let percentages = ['-20%', 'current', '+50%', '+100%', '+200%', '+1000%'];
 
         for(let i = 0; i < prices.length; i++) 
         {
@@ -181,17 +172,19 @@ export default class index extends Component {
         return(all);
     }
 
-    handlePrice(e)
+    // Client has changed the price, let's deal with it 
+    handlePrice(value)
     {
-        this.setState({price: e});
-        console.log('cliecked: ' + e);
-        priceSelected = e;
+        priceSelected = value;
+        this.setState({price: value});
 
+        // Update the changes
         this.handleChange(this.state.block);
     }
 
-    // Called first when client clicks time interval 
-    onMonths = () => {
+    // Time interval dropdown
+    onMonths = () => 
+    {
         let all = [];
         let time = ['1 month', '3 months', '6 months', '1 year', '3 years', '5 years', '10 years'];
 
@@ -206,20 +199,24 @@ export default class index extends Component {
         return(all);
     }
 
-    // Called second when client clicks time interval 
-    // Called also when client lands on page
+    // Called when client clicks time interval 
+    // Called also when client lands on page, updates the page elements
     updateWorth(val) 
     {
         console.log('calling updateWorth: ' + val);
 
         this.setState({stakeFor: val})
-        let monthly = (yearly_rewards / 12);
+        let monthly = (yearlyRewards / 12);
 
         // There's around 30 days in month so this will do.
         this.setState({ daily: monthly / 30 });
 
+        let monthlyBlock = (yearlyBlock / 12);
+        this.setState({ blockDaily: (monthlyBlock / 30).toFixed(2) });
+
         // We are always above 1 month so just leave this as it is
         this.setState({ monthly: monthly });
+        this.setState({ blockMonthly: (monthlyBlock).toFixed(2) });
         
         // Client clicked x months, update frontend
         if(val.includes("month"))
@@ -229,7 +226,11 @@ export default class index extends Component {
             // In 1 and 3 years will be the same
             this.setState({ yearly: monthly * time_amount });
             this.setState({ years3: monthly * time_amount });
+            
+            this.setState({ blockMore: (monthlyBlock * time_amount).toFixed(2) });
+            this.setState({ blockYearly: (monthlyBlock * time_amount).toFixed(2) });
         }
+
         // Client clicked x year(s), update frontend
         else if(val.includes("year"))
         {
@@ -240,34 +241,47 @@ export default class index extends Component {
                 time_amount = Number(val.charAt(0) + val.charAt(1));
             
             this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
-            this.setState({ yearly: yearly_rewards });
+            this.setState({ yearly: yearlyRewards });
+            this.setState({ blockYearly: (yearlyBlock).toFixed(2) });
             
             // If client clicked 3 years or above, update accordingly
             if(time_amount > 2)
             {
-                this.setState({ years3: yearly_rewards * time_amount });
+                this.setState({ years3: yearlyRewards * time_amount });
+                this.setState({ blockMore: (yearlyBlock * time_amount).toFixed(2) });
             }
-            else this.setState({ years3: yearly_rewards });
+            else 
+            {
+                this.setState({ years3: yearlyRewards });
+                this.setState({ blockMore: (yearlyBlock).toFixed(2) });
+            }
         }
-
     }
 
     // Called when client changes block input or price input
+    // Set some variables before updating client
     handleChange(e) 
     {
-        let val;
+        let totalInBlock;
 
+        // This is just to check whether the function call
+        // originated from block or price input, the data will be different
         if(e.hasOwnProperty('target'))
-            val = e.target.value;
+            totalInBlock = e.target.value;
         else
-            val = e;
+            totalInBlock = e;
 
-        yearly_rewards = (val * (525600 / totalStaking) ) * priceSelected;
-        this.setState({ block: val });
+        yearlyBlock = ( totalInBlock * (525600 / totalStaking) );
+        yearlyRewards = (totalInBlock * (525600 / totalStaking) ) * priceSelected;
+        this.setState({ block: totalInBlock });
+
+        // Finalize the updates
         this.updateWorth(this.state.stakeFor);
     }
 
-    render() {
+    // Render the page
+    render() 
+    {
         return (
             <div className={`container`}>
                 <div className={styles.top}>
@@ -319,25 +333,25 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p>Daily earnings estimate:</p>
                         <h4>$<Countup end={this.state.daily} duration={0.3} decimals={2} /></h4>
-                        <small>4.76 block</small>
+                        <small>{this.state.blockDaily} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Monthly earnings estimate:</p>
                         <h4>$<Countup end={this.state.monthly} duration={0.3} decimals={2} /></h4>
-                        <small>4.76 block</small>
+                        <small>{this.state.blockMonthly} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Yearly earnings estimate:</p>
                         <h4>$<Countup end={this.state.yearly} duration={0.3} decimals={2} /></h4>
-                        <small>4.76 block</small>
+                        <small>{this.state.blockYearly} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>{this.state.estimate}</p>
                         <h4>$<Countup end={this.state.years3} duration={0.3} decimals={2} /></h4>
-                        <small>4.76 block</small>
+                        <small>{this.state.blockMore} BLOCK</small>
                     </div>
 
                     <div className={`${styles.block}`}>
@@ -372,19 +386,28 @@ export default class index extends Component {
                             <span className={styles.sub}>60 seconds</span>
                         </div>
                     </div>
-
+                    <br></br><br></br>
                     <div className={styles.text}>
                         <div className={styles.area}>
                             <span className={`${styles.txt} ${styles.txt2}`}>
                             <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            The selection of the staker that confirms each block is probability-based. This means
+                            that everyone's chance of being selected to confirm the next block is equal to the amount
+                            of BLOCK staking divided by the total amount of BLOCK being staked on the network.
+                            <br></br><br></br>
+                            For a complete guide to staking BLOCK visit the <a href="https://docs.blocknet.co/wallet/staking/">official documentation.</a>
                             </span>
                         </div>
 
                         <div className={styles.area}>
                             <span className={styles.txt}>
                             <h2 className={`${styles.title} ${styles.t_one}`}>ROI</h2>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            The following equation can be derived to estimate the yearly return (in BLOCK) on the initial amount
+                            started with. This does not accoutn for compounding, which would increase this value.
+                            <br></br><br></br>
+                            Staking ROI is calculated as follows: 525600 / ([ total BLOCK staking on the network ] * 100)
+                            <br></br><br></br>
+                            *525600 = 1 BLOCK reward per minute * 1440 minutes per day * 365 days per year
                             </span>
                         </div>
                     </div>

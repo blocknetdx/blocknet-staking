@@ -13,11 +13,15 @@ import urllib, urllib.request
 price = 0.0
 supply = 0.0
 staking = 0.0
+parent_socket = None
 
 
 
-def start_api_thread():
+def start_api_thread(obj):
+    global parent_socket
+
     # A separate thread for API calls
+    parent_socket = obj
     threading.Thread(target=API_calls).start()
 
 
@@ -77,13 +81,25 @@ def API_calls():
 
                 for x in data['stakes']: 
                     if x['amount']: staking += float(x['amount'])
-                    
+
                 print(' [#] Fetched staking amount:', staking)
 
             last = time()
             print(' [#] Price:', price)
             print(' [#] Supply:', supply)
             print(' [#] Staking:', staking)
+
+            # Format our json data, round up some decimals
+            x = {
+                "price": str(round(price, 2)),
+                "supply": str(round(supply, 2)),
+                "staking": str(round(staking, 2))
+            }
+
+            json_response = json.dumps(x)
+
+            # Echo the updated json back to client(s)
+            parent_socket.emit('message', json_response)
 
         # Sleep the thread for a second
         sleep(1.0)

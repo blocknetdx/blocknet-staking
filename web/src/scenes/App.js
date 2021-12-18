@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-
 import Loader from '../components/loader/index';
 import Calculator from './calculator/index';
-
 import socket from '../helpers/socket';
 
-export default class App extends Component {
-  constructor(props) {
+
+
+export default class App extends Component 
+{
+  constructor(props) 
+  {
     super(props);
 
-    this.state = {
-      isLoaded: false,
-      data: {}
+    this.state = 
+    {
+      data: {},
+      isLoaded: false
     }
 
     this.changeProps = this.changeProps.bind(this);
@@ -23,11 +26,12 @@ export default class App extends Component {
     // Let the server know we're in
     socket.on('connect', function() 
     {
-        socket.send('[connection] ');
+      socket.send('[connection] ');
     });
 
-    // If the socket is disconnecting, it will automaticly try to reconnect
-    socket.on('disconnect', function() {
+    // Just in case we're dropping for some reason
+    socket.on('disconnect', function() 
+    {
       socket.socket.reconnect();
     });
     
@@ -37,7 +41,8 @@ export default class App extends Component {
     this.setState(data);
   }
 
-  render() {
+  render() 
+  {
     return (
       <>
         {!this.state.isLoaded ? <Loader /> : null}
