@@ -35,7 +35,8 @@ export default class index extends Component
         super(props);
 
         // Some states to update client info
-        this.state = {
+        this.state = 
+        {
             block: 5000,
             monthIsOpen: false,
             priceIsOpen: false,
@@ -44,10 +45,11 @@ export default class index extends Component
             usdPrices: [],
             price: '0.0',
             stakeFor: '3 years',
-            blockDaily: '0.0', blockMonthly: '0.0', blockYearly: '0.0', blockMore: '0.0',
+            dprefix: '', mprefix: '', yprefix: '', y3prefix: '',
             currentSupply:'0.0', currentStaking:'0.0', marketCap:'0.0',
             apr: '0.0', estimate: '3 years staking rewards estimate:',
-            daily: '0.0', monthly: '0.0', yearly: '0.0', years3: '0.0'
+            daily: '0.0', monthly: '0.0', yearly: '0.0', years3: '0.0',
+            blockDaily: '0.0', blockMonthly: '0.0', blockYearly: '0.0', blockMore: '0.0',
         };
 
         this.usdPrices = this.usdPrices.bind(this);
@@ -75,9 +77,11 @@ export default class index extends Component
                 if(obj.hasOwnProperty('price'))
                 {
                     currentPrice = parseFloat(obj.price);
-
-                    // Update frontend
-                    if(!changedPrice) this.setState({price: currentPrice});
+                    
+                    if(!changedPrice) 
+                        this.setState( {
+                            price: this.priceStringFormat(currentPrice)
+                        });
                 }
 
                 // We have the supply, no further action needed yet
@@ -87,7 +91,7 @@ export default class index extends Component
                 }
 
                 // We have total staking amount of blocknet, we now have everything we need
-                if(obj.hasOwnProperty('staking'))
+                if( obj.hasOwnProperty('staking') )
                 {
                     // Staking ROI = ( [525600] / [total BLOCK staked on the network] ) * 100
                     totalStaking = parseFloat(obj.staking);
@@ -115,6 +119,11 @@ export default class index extends Component
                         fixedStaking = (totalStaking / 1000).toFixed(2);
                         this.setState({currentStaking: fixedStaking + ' K'});
                     }
+                    else if(fixedStaking > 1000.0)
+                    {
+                        fixedStaking = (fixedStaking / 1000).toFixed(2);
+                        this.setState({currentStaking: fixedStaking + ' billion'});
+                    }
                     else
                     {
                         // There's more than a million, which should be normal 
@@ -129,13 +138,21 @@ export default class index extends Component
                         fixedMarketCap = ( (currentPrice * totalSupply) / 1000 ).toFixed(2);
                         this.setState({marketCap: fixedMarketCap + ' K'});
                     }
+                    else if(fixedMarketCap > 1000.0)
+                    {
+                        fixedMarketCap = (fixedMarketCap / 1000).toFixed(2);
+                        this.setState({marketCap: fixedMarketCap + ' billion'});
+                    }
                     else
                     {
                         this.setState({marketCap: fixedMarketCap + ' million'});
                     }
+                    
+                    // If client hasn't chosen their preferences, set it to default
+                    if(!changedPrice) priceSelected = currentPrice;
 
                     // Finally call this to update other elements
-                    this.updateWorth(this.state.stakeFor);
+                    this.handleChange(this.state.block);
                 }
             }
         });
@@ -145,29 +162,37 @@ export default class index extends Component
     usdPrices = () => 
     {
         let all = [];
-        let prices = 
-        [
-            (currentPrice * 0.8).toFixed(2), 
-            (currentPrice * 1.0).toFixed(2),
-            (currentPrice * 1.5).toFixed(2),
-            (currentPrice * 2.0).toFixed(2),
-            (currentPrice * 3.0).toFixed(2),
-            (currentPrice * 11.0).toFixed(2)
-        ];
-
+        let prices = [];
+        let prefixes = []
+        let mults = [0.8, 1.0, 1.5, 2.0, 3.0, 11.0];
         let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
         let percentages = ['-20% ', 'current ', '+50% ', '+100% ', '+200% ', '+1000% '];
 
+        // Create dropdown prefixes (if needed)
+        for (var i = 0; i < mults.length; i++) 
+        {
+            var str = String( this.priceStringFormat((currentPrice * mults[i])) );
+            var num = ( this.priceStringFormat(currentPrice, 1) * mults[i] );
+            var prefix = str.charAt(str.length -1);
+
+            if(num >= 1000) num = num / 1000
+            
+            prefixes.push(prefix);
+            prices.push(num.toFixed(1));
+        }
+
+        // Generate html dropdown
         for(let i = 0; i < prices.length; i++) 
         {
             all.push(
-                <span className={styles.item} onClick ={e => this.setState({priceIsOpen: false}) + this.handlePrice(prices[i])}  key={i}>
-                    <p>${prices[i]}</p>
+                <span className={styles.item} onClick ={e => this.setState({priceIsOpen: false}) + this.handlePrice((currentPrice * mults[i]))}  key={i}>
+                    <p>${prices[i]}{prefixes[i]}</p>
                     <small>{prices[i] === this.state.price ? percentages[i] : percentages[i]}
                     <span className={styles.emoji}>{emojis[i]}</span></small>
                 </span>
             )
         }
+
         return(all);
     }
 
@@ -176,7 +201,7 @@ export default class index extends Component
     {
         changedPrice = true;
         priceSelected = value;
-        this.setState({price: value});
+        this.setState({price: this.priceStringFormat(value)});
 
         // Update the changes
         this.handleChange(this.state.block);
@@ -199,21 +224,83 @@ export default class index extends Component
         return(all);
     }
 
-    // Called when client clicks time interval 
-    // Called also when client lands on page, updates the page elements
+    // Format $ price using prefixes - dropdown
+    priceStringFormat(price, num=0)
+    {
+        var return_val;
+
+        // Price is thousands
+        if(price >= 1000.0 && price < 1000000.0)
+            if(!num) return_val = String( (price / 1000).toFixed(1) + 'K' );
+            else return_val = (price / 1000);
+
+        // Well, you never know xD doesn't hurt to check 
+        else if(price >= 1000000.0)
+            if(!num) return_val = String( (price / 1000000).toFixed(1) + 'M' );
+            else return_val = (price / 1000000);
+
+        // Price is under 1k
+        else return_val = price;
+
+        return return_val;
+    }
+
+    // Format $ price using prefixes - estimates
+    stringFormat(value, state)
+    {
+        var prefix = '';
+
+        // Above 10k but below million
+        if(value > 10000 && value < 1000000)
+        {
+            prefix = 'K';
+            value = String( (value / 1000).toFixed(2) );
+        }
+
+        // Above million
+        else if(value >= 1000000)
+        {
+            prefix = 'M';
+            value = String( (value / 1000000).toFixed(2) );
+        }
+        
+        // Update client 
+        switch(state)
+        {
+            case 'day': 
+                this.setState({dprefix: prefix})
+                break;
+            case 'month': 
+                this.setState({mprefix: prefix})
+                break;
+            case 'year': 
+                this.setState({yprefix: prefix})
+                break;
+            case 'year3': 
+                this.setState({y3prefix: prefix})
+                break;
+
+            default: break;
+        }
+
+        return value;
+    }
+
+    // Updates the page elements
+    // Called when client clicks time interval/client lands on page/client gets new data
     updateWorth(val) 
     {
         this.setState({stakeFor: val})
         let monthly = (yearlyRewards / 12);
 
         // There's around 30 days in month so this will do.
-        this.setState({ daily: monthly / 30 });
+        this.setState({ daily: this.stringFormat( (monthly / 30), 'day' ) });
 
         let monthlyBlock = (yearlyBlock / 12);
         this.setState({ blockDaily: (monthlyBlock / 30).toFixed(2) });
 
         // We are always above 1 month so just leave this as it is
-        this.setState({ monthly: monthly });
+        this.setState({ monthly: this.stringFormat( monthly, 'month' ) });
         this.setState({ blockMonthly: (monthlyBlock).toFixed(2) });
         
         // Client clicked x months, update frontend
@@ -222,8 +309,8 @@ export default class index extends Component
             let time_amount = Number(val.charAt(0));
 
             // In 1 and 3 years will be the same
-            this.setState({ yearly: monthly * time_amount });
-            this.setState({ years3: monthly * time_amount });
+            this.setState({ yearly: this.stringFormat( (monthly * time_amount), 'year' ) });
+            this.setState({ yearly: this.stringFormat( (monthly * time_amount), 'year3' ) });
             
             this.setState({ blockMore: (monthlyBlock * time_amount).toFixed(2) });
             this.setState({ blockYearly: (monthlyBlock * time_amount).toFixed(2) });
@@ -241,19 +328,20 @@ export default class index extends Component
             if(time_amount > 1) 
                 this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
 
-            this.setState({ yearly: yearlyRewards });
             this.setState({ blockYearly: (yearlyBlock).toFixed(2) });
+            this.setState({ yearly: this.stringFormat( yearlyRewards, 'year' ) });
             
             // If client clicked 3 years or above, update accordingly
             if(time_amount > 2)
             {
-                this.setState({ years3: yearlyRewards * time_amount });
                 this.setState({ blockMore: (yearlyBlock * time_amount).toFixed(2) });
+                this.setState({ years3: this.stringFormat( (yearlyRewards * time_amount), 'year3' ) });
             }
             else 
             {
                 this.setState({ years3: yearlyRewards });
                 this.setState({ blockMore: (yearlyBlock).toFixed(2) });
+                this.setState({ years3: this.stringFormat( yearlyRewards, 'year3' ) });
             }
         }
     }
@@ -332,25 +420,25 @@ export default class index extends Component
                 <div className={`${styles.outputs}`}>
                     <div className={styles.block}>
                         <p>Daily earnings estimate:</p>
-                        <h4>$<Countup end={this.state.daily} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.daily} duration={0.3} decimals={2} />{this.state.dprefix}</h4>
                         <small>{this.state.blockDaily} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Monthly earnings estimate:</p>
-                        <h4>$<Countup end={this.state.monthly} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.monthly} duration={0.3} decimals={2} />{this.state.mprefix}</h4>
                         <small>{this.state.blockMonthly} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Yearly earnings estimate:</p>
-                        <h4>$<Countup end={this.state.yearly} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.yearly} duration={0.3} decimals={2} />{this.state.yprefix}</h4>
                         <small>{this.state.blockYearly} BLOCK</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>{this.state.estimate}</p>
-                        <h4>$<Countup end={this.state.years3} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.years3} duration={0.3} decimals={2} />{this.state.y3prefix}</h4>
                         <small>{this.state.blockMore} BLOCK</small>
                     </div>
 
