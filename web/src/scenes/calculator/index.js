@@ -133,8 +133,6 @@ export default class index extends Component
                         this.setState({marketCap: fixedMarketCap + ' million'});
                     }
 
-                    priceSelected = currentPrice;
-
                     // Finally call this to update other elements
                     this.updateWorth(this.state.stakeFor);
                 }
@@ -242,7 +240,7 @@ export default class index extends Component
             
             if(time_amount > 1) 
                 this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
-                
+
             this.setState({ yearly: yearlyRewards });
             this.setState({ blockYearly: (yearlyBlock).toFixed(2) });
             
