@@ -285,10 +285,15 @@
   font-weight: 500;
 }
 
+.titlereward {
+  padding-left: 2vw;
+  float:left;
+}
+
 .bottom .blocks {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
   transition: .3s ease;
 }
@@ -348,7 +353,7 @@
 .bottom .text .area .txt {
   width: 70%;
   color: var(--text-color-1);
-  font-size: 14px;
+  font-size: 16px;
   margin: 0 auto;
   float: right;
 }
@@ -356,6 +361,10 @@
 .bottom .text .area .txt2 {
   float: left;
   margin: 0 0 0 22px;
+}
+
+.area {
+  padding-top: 20px;
 }
 
 @media (max-width: 768px) {

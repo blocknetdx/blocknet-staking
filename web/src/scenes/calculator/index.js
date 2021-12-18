@@ -363,7 +363,9 @@ export default class index extends Component
                 </div>
 
                 <div className={styles.bottom}>
-                    <h2 className={styles.title}>Staking Rewards</h2>
+                    <div className={styles.titlereward}>
+                        <h2 className={styles.title}>Staking Rewards</h2>
+                    </div>
 
                     <div className={styles.blocks}>
                         <div className={styles.block}>
@@ -395,7 +397,7 @@ export default class index extends Component
                             that everyone's chance of being selected to confirm the next block is equal to the amount
                             of BLOCK staking divided by the total amount of BLOCK being staked on the network.
                             <br></br><br></br>
-                            For a complete guide to staking BLOCK visit the <a href="https://docs.blocknet.co/wallet/staking/">official documentation.</a>
+                            For a complete guide to staking BLOCK visit the <a id="document_link" href="https://docs.blocknet.co/wallet/staking/">official documentation</a>.
                             </span>
                         </div>
 

@@ -36,3 +36,8 @@ body {
 .container {
   max-width: 1200px;
 }
+
+#document_link {
+  text-decoration: none;
+  color: #1fa6cf;
+}
