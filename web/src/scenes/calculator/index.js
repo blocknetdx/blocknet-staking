@@ -310,7 +310,7 @@ export default class index extends Component
 
             // In 1 and 3 years will be the same
             this.setState({ yearly: this.stringFormat( (monthly * time_amount), 'year' ) });
-            this.setState({ yearly: this.stringFormat( (monthly * time_amount), 'year3' ) });
+            this.setState({ years3: this.stringFormat( (monthly * time_amount), 'year3' ) });
             
             this.setState({ blockMore: (monthlyBlock * time_amount).toFixed(2) });
             this.setState({ blockYearly: (monthlyBlock * time_amount).toFixed(2) });
@@ -358,6 +358,9 @@ export default class index extends Component
             totalInBlock = e.target.value;
         else
             totalInBlock = e;
+        
+        // Limit the input lenght
+        if(totalInBlock.length > 10) return;
 
         yearlyBlock = ( totalInBlock * (525600 / totalStaking) );
         yearlyRewards = (totalInBlock * (525600 / totalStaking) ) * priceSelected;
@@ -383,7 +386,7 @@ export default class index extends Component
                         <div className={styles.input}>
 
                             {/* User is changing block value, point to a cuntion */}
-                            <input value={this.state.block} onChange ={(e) => {this.handleChange(e)}} type="number"/>
+                            <input value={this.state.block} onChange ={(e) => {this.handleChange(e)}} type="number" />
                             <p className={styles.blocktxt}>block</p> 
                             <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
