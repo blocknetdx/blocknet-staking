@@ -10,6 +10,10 @@ import styles from './index.module.css';
 
 let ROI;
 let yearly_rewards;
+let totalStaking;
+let totalSupply;
+let currentPrice;
+let priceSelected;
 
 const Arrow = (props) => (
     <svg width="14" height="12" viewBox="0 0 10 11" className={styles.arrow} style={{right: props.right || '', top: props.top || ''}}>
@@ -26,15 +30,20 @@ export default class index extends Component {
         this.state = {
             block: 5000,
             stakeFor: '3 years',
-            price: '5.00',
+            price: '0.00',
             calcs: [],
             usdPrices: [],
 
             data:{},
+            
+            currentSupply:'0.0',
+            currentStaking:'0.0',
+            marketCap:'0.0',
 
-            userOutputs: {
-                daily: '444', monthly: '321', yearly: '123', years3: '5'
-            }
+            apr: '0.0',
+            estimate: '3 years staking rewards estimate:',
+
+            daily: '0.0', monthly: '0.0', yearly: '0.0', years3: '0.0'
         };
 
 
@@ -77,38 +86,73 @@ export default class index extends Component {
                 // We have price 
                 if(obj.hasOwnProperty('price'))
                 {
-                    var res_price = parseFloat(obj.price);
-                    console.log('price: ' + res_price);
+                    currentPrice = parseFloat(obj.price);
+                    console.log('price: ' + currentPrice);
 
                     // Update frontend
-                    this.setState({price: res_price});
+                    this.setState({price: currentPrice});
                 }
 
                 // We have the supply
                 if(obj.hasOwnProperty('supply'))
                 {
-                    var res_supply = parseFloat(obj.supply);
-                    console.log('supply: ' + res_supply);
+                    totalSupply = parseFloat(obj.supply);
+                    console.log('supply: ' + totalSupply);
 
                     // Update frontend
                     //this.setState({price: res_price});
                 }
 
-                // We have total staking amount of blocknet
+                // We have total staking amount of blocknet, we now have everything we need
                 if(obj.hasOwnProperty('staking'))
                 {
                     // Staking ROI = ( [525600] / [total BLOCK staked on the network] ) * 100
+                    totalStaking = parseFloat(obj.staking);
+                    ROI = (525600 / totalStaking) * 100;
 
-                    var res_staking = parseFloat(obj.staking);
+                    this.setState({apr: ROI});
 
-                    ROI = (525600 / res_staking) * 100;
-                    yearly_rewards = this.state.block * (525600 / res_staking);
+                    yearly_rewards = this.state.block * (525600 / totalStaking);
                     
-                    // Update frontend, which doesn't work. WeirdChamp
+                    // Update frontend
                     this.setState({yearly: yearly_rewards});
+                    
+                    // Supply is going up all the time so just / 1M
+                    let fixedSupply = (totalSupply / 1000000).toFixed(2);
+                    this.setState({currentSupply: fixedSupply});
+                    
+                    let fixedStaking = (totalStaking / 1000000).toFixed(2);
+                    
+                    // Staking count can vary, so make some checks just to be sure 
+                    if(fixedStaking < 1.0)
+                    {
+                        // There's under a million in staking, so we'll use 'K' to express thousands
+                        fixedStaking = (totalStaking / 1000).toFixed(2);
+                        this.setState({currentStaking: fixedStaking + ' K'});
+                    }
+                    else
+                    {
+                        // There's more than a million, which should be normal 
+                        this.setState({currentStaking: fixedStaking + ' million'});
+                    }
 
-                    console.log('staking: ' + res_staking);
-                    console.log('yearly_rewards: ' + yearly_rewards);
+                    let fixedMarketCap = ( (currentPrice * totalSupply) / 1000000 ).toFixed(2);
+
+                    // Market cap can also vary, so make same checks
+                    if(fixedMarketCap < 1.0)
+                    {
+                        fixedMarketCap = ( (currentPrice * totalSupply) / 1000 ).toFixed(2);
+                        this.setState({marketCap: fixedMarketCap + ' K'});
+                    }
+                    else
+                    {
+                        this.setState({marketCap: fixedMarketCap + ' million'});
+                    }
+
+                    priceSelected = currentPrice;
+
+                    // Finally call this to update other elements
+                    this.updateWorth(this.state.stakeFor);
                 }
             }
         });
@@ -116,37 +160,119 @@ export default class index extends Component {
 
     usdPrices = () => {
         let all = [];
-        let prices = ['4.00', '5.00', '7.50', '10.00', '20.00', '100.00'];
+        let prices = [
+            (currentPrice * 0.8).toFixed(2), 
+            (currentPrice * 1.0).toFixed(2),
+            (currentPrice * 1.5).toFixed(2),
+            (currentPrice * 2.0).toFixed(2),
+            (currentPrice * 3.0).toFixed(2),
+            (currentPrice * 11.0).toFixed(2)
+        ];
+        let percentages = ['-20%', 'current', '+50%', '+100%', '+200%', '+1000%'];
         let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
 
-        for(let i = 0; i < prices.length; i++) {
-            let percentage = Math.round((prices[i] - this.state.price) / this.state.price * 100);
+        for(let i = 0; i < prices.length; i++) 
+        {
             all.push(
-                <span className={styles.item} onClick={e => this.setState({price: prices[i]})} key={i}>
+                <span className={styles.item} onClick ={() => {this.handlePrice(prices[i])}}  key={i}>
                     <p>${prices[i]}</p>
-                    <small>{prices[i] === this.state.price ? 'current ' : percentage.toFixed(0) + '% '}<span className={styles.emoji}>{emojis[i]}</span></small>
+                    <small>{prices[i] === this.state.price ? percentages[i] : percentages[i]}
+                    <span className={styles.emoji}>{emojis[i]}</span></small>
                 </span>
             )
         }
         return(all);
     }
 
+    handlePrice(e)
+    {
+        this.setState({price: e});
+        console.log('cliecked: ' + e);
+        priceSelected = e;
+
+        this.handleChange(this.state.block);
+    }
+
+    // Called first when client clicks time interval 
     onMonths = () => {
         let all = [];
         let time = ['1 month', '3 months', '6 months', '1 year', '3 years', '5 years', '10 years'];
 
         for(let i = 0; i < time.length; i++) {
             all.push(
-                <span className={styles.item} onClick={e => this.setState({stakeFor: time[i]})} key={i}><p>{time[i]}</p><small>{this.state.stakeFor === time[i] ? 'current' : null}</small></span>
+                <span className={styles.item} onClick={() => this.updateWorth(time[i])} key={i}>
+                    <p>{time[i]}</p>
+                    <small>{this.state.stakeFor === time[i] ? 'current' : null}</small>
+                </span>
             )
         }
         return(all);
     }
 
+    // Called second when client clicks time interval 
+    // Called also when client lands on page
+    updateWorth(val) 
+    {
+        console.log('calling updateWorth: ' + val);
+
+        this.setState({stakeFor: val})
+        let monthly = (yearly_rewards / 12);
+
+        // There's around 30 days in month so this will do.
+        this.setState({ daily: monthly / 30 });
+
+        // We are always above 1 month so just leave this as it is
+        this.setState({ monthly: monthly });
+        
+        // Client clicked x months, update frontend
+        if(val.includes("month"))
+        {
+            let time_amount = Number(val.charAt(0));
+
+            // In 1 and 3 years will be the same
+            this.setState({ yearly: monthly * time_amount });
+            this.setState({ years3: monthly * time_amount });
+        }
+        // Client clicked x year(s), update frontend
+        else if(val.includes("year"))
+        {
+            let time_amount = Number(val.charAt(0));
+            
+            // Client clicked 10 years
+            if( Number(val.charAt(1)) == 0 )
+                time_amount = Number(val.charAt(0) + val.charAt(1));
+            
+            this.setState({ estimate: time_amount + ' years staking rewards estimate:' });
+            this.setState({ yearly: yearly_rewards });
+            
+            // If client clicked 3 years or above, update accordingly
+            if(time_amount > 2)
+            {
+                this.setState({ years3: yearly_rewards * time_amount });
+            }
+            else this.setState({ years3: yearly_rewards });
+        }
+
+    }
+
+    // Called when client changes block input or price input
+    handleChange(e) 
+    {
+        let val;
+
+        if(e.hasOwnProperty('target'))
+            val = e.target.value;
+        else
+            val = e;
+
+        yearly_rewards = (val * (525600 / totalStaking) ) * priceSelected;
+        this.setState({ block: val });
+        this.updateWorth(this.state.stakeFor);
+    }
+
     render() {
         return (
             <div className={`container`}>
-                <h4>Example props: {this.state.calcs}</h4> {/* Example, remove this later on */}
                 <div className={styles.top}>
                     <h2 className={styles.title}>Blocknet Staking Calculator</h2>
                     <p className={styles.sub}>With the tool below you can calculate your staking reward in $BLOCK.</p>
@@ -156,7 +282,9 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
-                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} type="number"/> 
+
+                            {/* User is changing block value, point to a cuntion */}
+                            <input value={this.state.block} onChange ={(e) => {this.handleChange(e)}} type="number"/> 
                             <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
                     </div>
@@ -192,25 +320,25 @@ export default class index extends Component {
                 <div className={`${styles.outputs}`}>
                     <div className={styles.block}>
                         <p>Daily earnings estimate:</p>
-                        <h4>$<Countup end={this.state.userOutputs.daily} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.daily} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Monthly earnings estimate:</p>
-                        <h4>$<Countup end={this.state.userOutputs.monthly} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.monthly} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
                     <div className={styles.block}>
                         <p>Yearly earnings estimate:</p>
-                        <h4>$<Countup end={this.state.userOutputs.yearly} duration={0.3} decimals={2} /></h4>
+                        <h4>$<Countup end={this.state.yearly} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
                     <div className={styles.block}>
-                        <p>3 years staking rewards estimate:</p>
-                        <h4>$<Countup end={this.state.userOutputs.years3} duration={0.3} decimals={2} /></h4>
+                        <p>{this.state.estimate}</p>
+                        <h4>$<Countup end={this.state.years3} duration={0.3} decimals={2} /></h4>
                         <small>4.76 block</small>
                     </div>
 
@@ -218,7 +346,7 @@ export default class index extends Component {
                         <p>Current APR: <FontAwesomeIcon className={styles.icon} icon={faQuestionCircle} />
                             <span className={styles.apr}>525600 / ([total BLOCK staking on the network] * 100)</span>
                         </p>
-                        <h4><Countup end="17.80" duration={0.3} decimals={2} />%</h4>
+                        <h4><Countup end={this.state.apr} duration={0.3} decimals={2} />%</h4>
                     </div>
                 </div>
 
@@ -228,17 +356,17 @@ export default class index extends Component {
                     <div className={styles.blocks}>
                         <div className={styles.block}>
                             <span className={styles.title}>Current total supply of block</span>
-                            <span className={styles.sub}>7.75 million</span>
+                            <span className={styles.sub}>{this.state.currentSupply} million</span>
                         </div>
 
                         <div className={styles.block}>
                             <span className={styles.title}>Current BLOCK staking</span>
-                            <span className={styles.sub}>2.93 million</span>
+                            <span className={styles.sub}>{this.state.currentStaking}</span>
                         </div>
 
                         <div className={styles.block}>
                             <span className={styles.title}>Market cap</span>
-                            <span className={styles.sub}>$58.83 million</span>
+                            <span className={styles.sub}>${this.state.marketCap}</span>
                         </div>
 
                         <div className={styles.block}>
