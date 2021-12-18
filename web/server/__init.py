@@ -53,15 +53,16 @@ def handle_message(data):
     if starts(data, '[connection]'):
         print(' [#] Client connected.')
 
+        # Format our json data, round up some decimals
         x = {
-            "price": str(api.price),
-            "supply": str(api.supply),
-            "staking": str(api.staking)
+            "price": str(round(api.price, 3)),
+            "supply": str(round(api.supply, 3)),
+            "staking": str(round(api.staking, 3))
         }
 
         json_response = json.dumps(x)
 
-        # Echo a json back to client
+        # Echo the json back to client
         socketio.emit('message', json_response)
 
 

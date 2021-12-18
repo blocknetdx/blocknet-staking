@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Countup from 'react-countup';
 
+import socket from '../../helpers/socket';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle, faSortNumericUpAlt } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './index.module.css';
+
+let ROI;
+let yearly_rewards;
 
 const Arrow = (props) => (
     <svg width="14" height="12" viewBox="0 0 10 11" className={styles.arrow} style={{right: props.right || '', top: props.top || ''}}>
@@ -12,19 +17,23 @@ const Arrow = (props) => (
     </svg>
 );
 
+
+
 export default class index extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            block: 1,
+            block: 5000,
             stakeFor: '3 years',
             price: '5.00',
             calcs: [],
             usdPrices: [],
 
+            data:{},
+
             userOutputs: {
-                daily: '123', monthly: '321', yearly: '', years3: ''
+                daily: '444', monthly: '321', yearly: '123', years3: '5'
             }
         };
 
@@ -33,29 +42,76 @@ export default class index extends Component {
         this.onMonths = this.onMonths.bind(this);
     }
 
+    // Initialization(s) that requires DOM nodes should go here
     componentDidMount() 
     {
-
-        // Then mby do the calcs here from the props, example:
-        let example = this.props.data.a * this.props.data.b;
-        
-        // Message from socketio
-        let json_response = this.props.data;
-
-        // Parse json 
-        const obj = JSON.parse(json_response);
-
-        if(obj.hasOwnProperty('price'))
+        // Let the server know we're in
+        socket.on('connect', function() 
         {
+            socket.send('[connection] ');
+        });
 
-            var res_price = parseFloat(obj.price);
+        // Listen the server for messages
+        socket.on('message', (msg) => 
+        {
+            console.log('python response: ' + msg);
 
-            //console.log('price: ' + res_price.toFixed(2));
+            this.setState({data:msg})
 
-            // Update front-end
-            //this.setState({price: res_price.toFixed(2)});
-        }
-        
+            // Message from socketio 
+            let json_response = this.state.data; 
+
+            console.log('datatype:' + String( typeof(json_response) ) ); 
+
+            if( String( typeof(json_response) ) === 'object' )
+            {
+                console.log('data:' + JSON.stringify(json_response) );
+            }
+
+            // Check if we got some data and not an empty object
+            if( String( typeof(json_response) ) === 'string' )
+            {
+                // Parse the json string 
+                const obj = JSON.parse(json_response);
+
+                // We have price 
+                if(obj.hasOwnProperty('price'))
+                {
+                    var res_price = parseFloat(obj.price);
+                    console.log('price: ' + res_price);
+
+                    // Update frontend
+                    this.setState({price: res_price});
+                }
+
+                // We have the supply
+                if(obj.hasOwnProperty('supply'))
+                {
+                    var res_supply = parseFloat(obj.supply);
+                    console.log('supply: ' + res_supply);
+
+                    // Update frontend
+                    //this.setState({price: res_price});
+                }
+
+                // We have total staking amount of blocknet
+                if(obj.hasOwnProperty('staking'))
+                {
+                    // Staking ROI = ( [525600] / [total BLOCK staked on the network] ) * 100
+
+                    var res_staking = parseFloat(obj.staking);
+
+                    ROI = (525600 / res_staking) * 100;
+                    yearly_rewards = this.state.block * (525600 / res_staking);
+                    
+                    // Update frontend, which doesn't work. WeirdChamp
+                    this.setState({yearly: yearly_rewards});
+
+                    console.log('staking: ' + res_staking);
+                    console.log('yearly_rewards: ' + yearly_rewards);
+                }
+            }
+        });
     }
 
     usdPrices = () => {
@@ -100,7 +156,7 @@ export default class index extends Component {
                     <div className={styles.block}>
                         <p className={styles.pre}>BLOCK to stake:</p>
                         <div className={styles.input}>
-                            <input value={this.state.block.toFixed(3)} onChange={e => this.setState({block: e.target.value})} type="number"/> 
+                            <input value={this.state.block} onChange={e => this.setState({block: e.target.value})} type="number"/> 
                             <FontAwesomeIcon className={styles.num} icon={faSortNumericUpAlt} />
                         </div>
                     </div>
