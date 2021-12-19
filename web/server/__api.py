@@ -16,14 +16,13 @@ staking = 0.0
 parent_socket = None
 
 
-
 def start_api_thread(obj):
-    global parent_socket
 
     # A separate thread for API calls
+    global parent_socket
+
     parent_socket = obj
     threading.Thread(target=API_calls).start()
-
 
 
 def API_calls():
@@ -52,7 +51,6 @@ def API_calls():
         now = time()
         elapsed = now - last
 
-        # Update data if it hasn't been updated last x seconds
         # All chainz API-calls should be limited to 1->10 seconds
         if elapsed > query_limit:
 
@@ -71,7 +69,7 @@ def API_calls():
                 print(' [#] Fetched supply:', supply)
 
             elif curr == 3:
-                # Get total staking amount of Blocknet
+                # Get total staking amount of the network
 
                 curr = 1
                 staking = 0.0
@@ -82,13 +80,14 @@ def API_calls():
                 for x in data['stakes']: 
                     if x['amount']: staking += float(x['amount'])
 
-                print(' [#] Fetched staking amount:', staking)
-
             last = time()
+
+            # Just some debugging, can remove
             print(' [#] Price:', price)
             print(' [#] Supply:', supply)
             print(' [#] Staking:', staking)
 
+            # Send updated data to clients
             # Format our json data, round up some decimals
             x = {
                 "price": str(round(price, 2)),

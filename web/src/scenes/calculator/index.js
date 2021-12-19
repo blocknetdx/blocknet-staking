@@ -17,7 +17,6 @@ let yearlyRewards;          // Yearly USD rewards
 var changedPrice = false;   // Has client changed price yet
 
 
-
 const Arrow = (props) => 
 (
     // Dropdown arrow stuff
@@ -27,26 +26,28 @@ const Arrow = (props) =>
 );
 
 
-
 export default class index extends Component 
 {
     constructor(props) 
     {
         super(props);
 
-        // Some states to update client info
+        // Some states to keep our clients happy
         this.state = 
         {
             block: 5000,
             monthIsOpen: false,
             priceIsOpen: false,
+
             data:{},
             calcs: [],
             usdPrices: [],
+
             price: '0.0',
             stakeFor: '3 years',
             dprefix: '', mprefix: '', yprefix: '', y3prefix: '',
             currentSupply:'0.0', currentStaking:'0.0', marketCap:'0.0',
+
             apr: '0.0', estimate: '3 years staking rewards estimate:',
             daily: '0.0', monthly: '0.0', yearly: '0.0', years3: '0.0',
             blockDaily: '0.0', blockMonthly: '0.0', blockYearly: '0.0', blockMore: '0.0',
@@ -84,26 +85,28 @@ export default class index extends Component
                         });
                 }
 
-                // We have the supply, no further action needed yet
+                // We have the supply
                 if(obj.hasOwnProperty('supply'))
                 {
                     totalSupply = parseFloat(obj.supply);
                 }
 
-                // We have total staking amount of blocknet, we now have everything we need
+                // We have total staking amount of the network, we now have everything we need
                 if( obj.hasOwnProperty('staking') )
                 {
                     // Staking ROI = ( [525600] / [total BLOCK staked on the network] ) * 100
                     totalStaking = parseFloat(obj.staking);
                     ROI = (525600 / totalStaking) * 100;
-
+                    
+                    // We can now get rid of the "Hold on.." message, if the server just booted
                     if (totalStaking >= 1.0) this.props.changeProps({isLoaded: true});
-                    this.setState({apr: ROI});
 
+                    this.setState({apr: ROI});
+                    
+                    // Set some global vars we'll need later
                     yearlyBlock = ( this.state.block * (525600 / totalStaking) );
                     yearlyRewards = this.state.block * (525600 / totalStaking) * currentPrice;
                     
-                    // Update frontend
                     this.setState({yearly: yearlyRewards});
                     
                     // Supply is going up all the time so just / 1M
@@ -121,18 +124,19 @@ export default class index extends Component
                     }
                     else if(fixedStaking > 1000.0)
                     {
+                        // This is unlikely but its there.
                         fixedStaking = (fixedStaking / 1000).toFixed(2);
                         this.setState({currentStaking: fixedStaking + ' billion'});
                     }
                     else
                     {
-                        // There's more than a million, which should be normal 
+                        // There's more than a million in staking, which is normal 
                         this.setState({currentStaking: fixedStaking + ' million'});
                     }
 
                     let fixedMarketCap = ( (currentPrice * totalSupply) / 1000000 ).toFixed(2);
 
-                    // Market cap can also vary, so make same checks
+                    // Market cap can definitely vary, so make the same checks
                     if(fixedMarketCap < 1.0)
                     {
                         fixedMarketCap = ( (currentPrice * totalSupply) / 1000 ).toFixed(2);
@@ -181,7 +185,7 @@ export default class index extends Component
             prices.push(num.toFixed(1));
         }
 
-        // Generate html dropdown
+        // Generate html dropdown and hook some stuff, hopefully not too messy
         for(let i = 0; i < prices.length; i++) 
         {
             all.push(
@@ -192,7 +196,6 @@ export default class index extends Component
                 </span>
             )
         }
-
         return(all);
     }
 
@@ -213,7 +216,9 @@ export default class index extends Component
         let all = [];
         let time = ['1 month', '3 months', '6 months', '1 year', '3 years', '5 years', '10 years'];
 
-        for(let i = 0; i < time.length; i++) {
+        // Push and hook
+        for(let i = 0; i < time.length; i++) 
+        {
             all.push(
                 <span className={styles.item} onClick={e => this.setState({monthIsOpen: false}) + this.updateWorth(time[i])} key={i}>
                     <p>{time[i]}</p>
@@ -287,7 +292,7 @@ export default class index extends Component
     }
 
     // Updates the page elements
-    // Called when client clicks time interval/client lands on page/client gets new data
+    // Called when client clicks time interval || client lands on page || client gets new data
     updateWorth(val) 
     {
         this.setState({stakeFor: val})

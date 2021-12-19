@@ -4,7 +4,6 @@ import Calculator from './calculator/index';
 import socket from '../helpers/socket';
 
 
-
 export default class App extends Component 
 {
   constructor(props) 

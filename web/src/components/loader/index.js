@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-
 import styles from './index.module.css';
+
 
 export default class index extends Component {
     render() {
@@ -10,7 +10,7 @@ export default class index extends Component {
                 <div className={styles.loader}>
                     <span className={styles.inner}></span>
                 </div>
-                <p>Hold on.. We're fetching some stuff</p>
+                <p>Hold on.. We're fetching some stuff!</p>
             </div>
         )
     }
