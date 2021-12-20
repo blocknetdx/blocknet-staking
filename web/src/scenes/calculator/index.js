@@ -170,7 +170,7 @@ export default class index extends Component
         let prefixes = []
         let mults = [0.8, 1.0, 1.5, 2.0, 3.0, 11.0];
         let emojis = ['💪', '🙂', '😋', '😝', '🤑', '🚀'];
-        let percentages = ['-20% ', 'current ', '+50% ', '+100% ', '+200% ', '+1000% '];
+        let percentages = ['-20% ', 'CURRENT ', '+50% ', '+100% ', '+200% ', '+1000% '];
 
         // Create dropdown prefixes (if needed)
         for (var i = 0; i < mults.length; i++) 
