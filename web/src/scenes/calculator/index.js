@@ -179,10 +179,10 @@ export default class index extends Component
             var num = ( this.priceStringFormat(currentPrice, 1) * mults[i] );
             var prefix = str.charAt(str.length -1);
 
-            if(num >= 1000) num = num / 1000
+            if(num >= 1000) num = num / 1000;
             
             prefixes.push(prefix);
-            prices.push(num.toFixed(1));
+            prices.push( num.toFixed(2) );
         }
 
         // Generate html dropdown and hook some stuff, hopefully not too messy
