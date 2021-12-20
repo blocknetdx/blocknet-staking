@@ -179,9 +179,12 @@ export default class index extends Component
             var num = ( this.priceStringFormat(currentPrice, 1) * mults[i] );
             var prefix = str.charAt(str.length -1);
 
-            if(num >= 1000) num = num / 1000;
-            
-            prefixes.push(prefix);
+            if(num >= 1000.0) num = num / 1000;
+
+            // We actually don't want a prefix if we under 1k 
+            if(num < 1000.0) prefixes.push('');
+            else prefixes.push(prefix);
+
             prices.push( num.toFixed(2) );
         }
 
