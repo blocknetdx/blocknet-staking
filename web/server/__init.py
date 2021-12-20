@@ -57,9 +57,9 @@ def handle_message(data):
         # Send clients their needed data
         # Format our json data, round up some decimals
         x = {
-            "price": str(round(api.price, 2)),
-            "supply": str(round(api.supply, 2)),
-            "staking": str(round(api.staking, 2))
+            "price": str(round(api.price, 3)),
+            "supply": str(round(api.supply, 3)),
+            "staking": str(round(api.staking, 3))
         }
 
         json_response = json.dumps(x)

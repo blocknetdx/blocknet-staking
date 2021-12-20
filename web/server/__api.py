@@ -90,9 +90,9 @@ def API_calls():
             # Send updated data to clients
             # Format our json data, round up some decimals
             x = {
-                "price": str(round(price, 2)),
-                "supply": str(round(supply, 2)),
-                "staking": str(round(staking, 2))
+                "price": str(round(price, 3)),
+                "supply": str(round(supply, 3)),
+                "staking": str(round(staking, 3))
             }
 
             json_response = json.dumps(x)
