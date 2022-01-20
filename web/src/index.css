@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+/* IBM */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+  --theme-color: #9a9c9e;
+  --color-green: #68e98a;
+  --color-blue: #0065f3;
+
+  --bg-color-0: #242424;
+  /* Background */
+  --bg-color-1: #383838;
+  /* Input bg */
+  --bg-color-2: #464646;
+  /* Hover stuff */
+  --bg-color-3: #242424;
+  /* Background */
+  --bg-color-3: #1d1d1d;
+  /* Header */
+  --bg-color-4: #252525;
+  /* Dropdown bg mobile */
+
+  --border-0: #3b3b3b;
+  --border-1: #5a5a5a;
+
+  --text-color-0: #fff;
+  --text-color-1: #ccc;
+  --text-color-2: #8a8a8a;
+
+  --loader-0: #525151;
+  /* Loader bg */
+}
+
+body {
+  width: 100%;
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg-color-0);
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-color-1);
+  width: 5px;
+}

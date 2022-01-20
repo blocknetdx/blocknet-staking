@@ -1,0 +1,205 @@
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
+body {
+  
+}
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.w-block {
+  display: block;
+}
+.w_inline_block {
+  max-width: 100%;
+  display: inline-block;
+}
+.w_dropdown {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 900;
+}
+.w_dropdown-btn,
+.w_dropdown_toggle,
+.w_dropdown_link {
+  position: relative;
+  vertical-align: top;
+  text-decoration: none;
+  color: #222222;
+  padding: 20px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+}
+.w_dropdown_toggle {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  cursor: pointer;
+  padding-right: 40px;
+}
+.w_dropdown_toggle:focus {
+  outline: 0;
+}
+.w-icon-dropdown-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  margin-right: 20px;
+  width: 1em;
+  height: 1em;
+}
+.w_dropdown_list {
+  position: absolute;
+  background: #dddddd;
+  display: none;
+  min-width: 100%;
+}
+.w_dropdown_list.w--open {
+  display: block;
+}
+.w_dropdown_link {
+  padding: 10px 20px;
+  display: block;
+  color: #222222;
+}
+.w_dropdown_link.w__current {
+  color: #0082f3;
+}
+.w_dropdown_link:focus {
+  outline: 0;
+}
+@media screen and (max-width: 767px) {
+  .w_nav_brand {
+    padding-left: 10px;
+  }
+}
+/**
+ * ## Note
+ * Safari (on both iOS and OS X) does not handle viewport units (vh, vw) well.
+ * For example percentage units do not work on descendants of elements that
+ * have any dimensions expressed in viewport units. It also doesn’t handle them at
+ * all in `calc()`.
+ */
+/**
+ * Wrapper around all lightbox elements
+ *
+ * 1. Since the lightbox can receive focus, IE also gives it an outline.
+ * 2. Fixes flickering on Chrome when a transition is in progress
+ *    underneath the lightbox.
+ */
+
+.w--nav-link-open {
+  display: block;
+  position: relative;
+}
+.w_nav_overlay {
+  position: absolute;
+  overflow: hidden;
+  display: none;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.w_nav_overlay [data-nav-menu-open] {
+  top: 0;
+}
+.w_nav[data-animation="over-left"] .w_nav_overlay {
+  width: auto;
+}
+.w_nav[data-animation="over-left"] .w_nav_overlay,
+.w_nav[data-animation="over-left"] [data-nav-menu-open] {
+  right: auto;
+  z-index: 1;
+  top: 0;
+}
+.w_nav[data-animation="over-right"] .w_nav_overlay {
+  width: auto;
+}
+.w_nav[data-animation="over-right"] .w_nav_overlay,
+.w_nav[data-animation="over-right"] [data-nav-menu-open] {
+  left: auto;
+  z-index: 1;
+  top: 0;
+}
+.w_nav_button {
+  position: relative;
+  float: right;
+  padding: 18px;
+  font-size: 24px;
+  display: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.w_nav_button:focus {
+  outline: 0;
+}
+.w_nav_button.w--open {
+  background-color: #C8C8C8;
+  color: white;
+}
+.w_nav[data-collapse="all"] .w_nav_menu {
+  display: none;
+}
+.w_nav[data-collapse="all"] .w_nav_button {
+  display: block;
+}
+.w--nav-dropdown-open {
+  display: block;
+}
+.w--nav-dropdown-toggle-open {
+  display: block;
+}
+.w--nav-dropdown-list-open {
+  position: static;
+}
+@media screen and (max-width: 991px) {
+  .w_nav[data-collapse="medium"] .w_nav_menu {
+    display: none;
+  }
+  .w_nav[data-collapse="medium"] .w_nav_button {
+    display: block;
+  }
+}
+@media screen and (max-width: 767px) {
+  .w_nav[data-collapse="small"] .w_nav_menu {
+    display: none;
+  }
+  .w_nav[data-collapse="small"] .w_nav_button {
+    display: block;
+  }
+  .w_nav_brand {
+    padding-left: 10px;
+  }
+}
+@media screen and (max-width: 479px) {
+  .w_nav[data-collapse="tiny"] .w_nav_menu {
+    display: none;
+  }
+  .w_nav[data-collapse="tiny"] .w_nav_button {
+    display: block;
+  }
+}
