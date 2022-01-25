@@ -8,6 +8,7 @@ import json
 import requests
 import threading
 from time import time, sleep
+from time import gmtime, strftime
 import urllib, urllib.request
 
 price = 0.0
@@ -16,9 +17,20 @@ staking = 0.0
 parent_socket = None
 
 
+def error_log(at, error):
+
+    # Log an API error
+
+    stamp = strftime("%Y-%m-%d %H:%M:%S - ", gmtime())
+
+    with open("error_log.txt", "a+") as f:
+        f.write('\n' + stamp + at + error)
+
+
 def start_api_thread(obj):
 
     # A separate thread for API calls
+
     global parent_socket
 
     parent_socket = obj
@@ -58,14 +70,24 @@ def API_calls():
                 # Get BLOCK - USD price
 
                 curr += 1
-                price = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=ticker.usd"))
+
+                try:
+                    price = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=ticker.usd"))
+                except Exception as err:
+                    error_log('[Price request]: ', err)
+
                 print(' [#] Fetched price:', price)
 
             elif curr == 2:
                 # Get Blocknet supply
 
                 curr += 1
-                supply = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=circulating"))
+
+                try:
+                    supply = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=circulating"))
+                except Exception as err:
+                    error_log('[Supply request]: ', err)
+
                 print(' [#] Fetched supply:', supply)
 
             elif curr == 3:
@@ -74,7 +96,11 @@ def API_calls():
                 curr = 1
                 staking = 0.0
 
-                r = requests.get('https://chainz.cryptoid.info/explorer/index.stakes.dws?coin=block')
+                try:
+                    r = requests.get('https://chainz.cryptoid.info/explorer/index.stakes.dws?coin=block')
+                except Exception as err:
+                    error_log('[Staking request]: ', err)
+
                 data = r.json()
 
                 for x in data['stakes']: 
