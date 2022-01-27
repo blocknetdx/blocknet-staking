@@ -355,6 +355,19 @@
     padding-right: 13px;
 }
 
+.errnotif {
+    text-align: center;
+}
+
+.errnotif span {
+    color: #e32929;
+    font-weight: 300;
+    transition: .3s ease;
+    font-size: 15px;
+    position: relative;
+    bottom: -5px;
+}
+
 /* Staking estimates */
 .outputs {
     width: 100%;
@@ -1695,6 +1708,14 @@
 
 / ************** */
 @media (max-width: 466px) {
+
+    .errnotif span {
+        left: 25%;
+    }
+
+    .errnotif  {
+        max-width: 250px;
+    }
 
     .bottom .text > div {
         flex: 0 100% !important;

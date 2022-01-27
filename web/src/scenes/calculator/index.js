@@ -19,6 +19,9 @@ let yearlyRewards;          // yearlyBlock * price
 var changedPrice = false;   // Has client changed price yet
 let currentBlock;           // Amount of BLOCK client set on input
 
+// If there was problems with API requests
+let errorMsg = "NOTE: There was an error fetching updated price data!";
+
 
 export default class index extends Component 
 {
@@ -36,6 +39,8 @@ export default class index extends Component
             data:{},
             calcs: [],
             usdPrices: [],
+
+            apiNotice: errorMsg, opacity: 0.0,
 
             price: '0.0',
             stakeFor: '3 years',
@@ -157,6 +162,19 @@ export default class index extends Component
 
                     // Finally call this to update other elements
                     this.handleChange(this.state.block);
+                }
+
+                // Server threw an error when making API request
+                // Display our error message by setting opacity
+                if(obj.hasOwnProperty('error'))
+                {
+                    this.setState( {opacity: 1.0} );
+                }
+
+                // Requests OK
+                if(obj.hasOwnProperty('OK'))
+                {
+                    this.setState( {opacity: 0.0} );
                 }
             }
         });
@@ -446,6 +464,14 @@ export default class index extends Component
         this.updateWorth(this.state.stakeFor);
     }
 
+    // This is only visible when server throws an API error
+    errorNotify()
+    {
+        return (
+            <span style={{opacity: this.state.opacity}}>{this.state.apiNotice}</span>
+        );
+    }
+
     // Render the page
     render() 
     {
@@ -503,6 +529,10 @@ export default class index extends Component
                                 {this.usdPrices()}
                             </div>
                         </div>
+                    </div>
+
+                    <div className={styles.errnotif}>
+                        {this.errorNotify()}
                     </div>
 
                     <div className={`${styles.outputs}`}>

@@ -67,6 +67,12 @@ def handle_message(data):
         # Echo the json back to client
         socketio.emit('message', json_response, to=request.sid)
 
+        # Let new clients know if we had some problems
+        if api.raised:
+            x = {"error": 'API Error'}
+            json_response = json.dumps(x)
+            socketio.emit('message', json_response, to=request.sid)
+
 
 @app.route("/idx")
 def serve():

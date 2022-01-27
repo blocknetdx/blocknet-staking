@@ -14,6 +14,7 @@ import urllib, urllib.request
 price = 0.0
 supply = 0.0
 staking = 0.0
+raised = False
 parent_socket = None
 
 
@@ -21,6 +22,12 @@ def error_log(at, error):
 
     # Log an API error
 
+    # Let clients know we couldn't fetch the data
+    x = {"error": 'API Error'}
+    json_response = json.dumps(x)
+    parent_socket.emit('message', json_response)
+
+    # Generate a timestamp and log the error 
     stamp = strftime("%Y-%m-%d %H:%M:%S - ", gmtime())
 
     with open("error_log.txt", "a+") as f:
@@ -44,6 +51,7 @@ def API_calls():
 
     global price
     global supply
+    global raised
     global staking 
 
     curr = 1
@@ -61,6 +69,7 @@ def API_calls():
         else: query_limit = 60.0
 
         now = time()
+        raised = False
         elapsed = now - last
 
         # All chainz API-calls should be limited to 1->10 seconds
@@ -74,6 +83,7 @@ def API_calls():
                 try:
                     price = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=ticker.usd"))
                 except Exception as err:
+                    raised = True
                     error_log('[Price request]: ', err)
 
                 print(' [#] Fetched price:', price)
@@ -86,6 +96,7 @@ def API_calls():
                 try:
                     supply = json.load(urllib.request.urlopen("https://chainz.cryptoid.info/block/api.dws?q=circulating"))
                 except Exception as err:
+                    raised = True 
                     error_log('[Supply request]: ', err)
 
                 print(' [#] Fetched supply:', supply)
@@ -98,15 +109,22 @@ def API_calls():
 
                 try:
                     r = requests.get('https://chainz.cryptoid.info/explorer/index.stakes.dws?coin=block')
+                    data = r.json()
                 except Exception as err:
+                    raised = True 
                     error_log('[Staking request]: ', err)
-
-                data = r.json()
 
                 for x in data['stakes']: 
                     if x['amount']: staking += float(x['amount'])
 
             last = time()
+
+            # Let clients know the requests went through
+            # We need this to get rid of a frontend error message if there was an outage 
+            if not raised:
+                x = {"OK": 'API 200'}
+                json_response = json.dumps(x)
+                parent_socket.emit('message', json_response)
 
             # Just some debugging, can remove
             print(' [#] Price:', price)
