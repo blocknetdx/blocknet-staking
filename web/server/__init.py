@@ -24,7 +24,7 @@ app = Flask(__name__)
 app = Flask(__name__, static_url_path='', static_folder=static_index)
 
 # Remove cors_allowed_origins="*" on deployment 
-socketio = sio(app, async_mode='threading', async_handlers=True, cors_allowed_origins="*")
+socketio = sio(app, async_mode='threading', async_handlers=True) # , cors_allowed_origins="*"
 
 
 def starts(var, string):
@@ -74,7 +74,7 @@ def handle_message(data):
             socketio.emit('message', json_response, to=request.sid)
 
 
-@app.route("/idx")
+@app.route("/")
 def serve():
 
     # Edit route to ("/"} on deployment
