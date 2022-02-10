@@ -6,16 +6,13 @@
 
 import __api as api
 
+import os
 import json
-from pathlib import Path
 from flask_socketio import SocketIO as sio
 from flask import Flask, send_from_directory, request 
 
-# Working directory 
-path = Path(Path().resolve())
-
 # Compiled React directory (<parent>/build)
-static_index = path.parent.absolute() / 'build'
+static_index = '../build'
 
 # Initialize the app
 app = Flask(__name__)
@@ -24,7 +21,7 @@ app = Flask(__name__)
 app = Flask(__name__, static_url_path='', static_folder=static_index)
 
 # Remove cors_allowed_origins="*" on deployment 
-socketio = sio(app, async_mode='threading', async_handlers=True) # , cors_allowed_origins="*"
+socketio = sio(app, async_mode='threading', cors_allowed_origins="*", async_handlers=True)
 
 
 def starts(var, string):
@@ -78,29 +75,47 @@ def handle_message(data):
 def serve():
 
     # Edit route to ("/"} on deployment
+    # Client landed, render the index
     return send_from_directory(app.static_folder, 'index.html')
+
+
+def main():
+
+    # init 
+    # Check if we're running production & Gunicorn 
+    prod = os.getenv('PRODUCTION')
+
+    # Start an API thread
+    api.start_api_thread(socketio)
+
+    # If we're not running via prod&Gunicorn we need to call socketio.run
+    if not prod:
+        # Get domain:port from file, edit this file on deployment
+        f = open("flask_domain.txt", "r")
+        domain = f.read()
+        f.close()
+
+        # Attempt to read the file 
+        try:
+            domain = domain.split(':')
+            port = domain[1]
+            domain = domain[0]
+        except Exception as err:
+
+            # Throw an exception if there was any funny business
+            print(' [x] ERROR:', err)
+            raise Exception(" Couldn't read " + str(path) + "\"" + "flask_domain.txt. < Syntax: domain:port >")
+
+        socketio.run(app, host=domain, port=port)
+
+    print(' [#] __init successful. Production', prod)
 
 
 if __name__ == '__main__':
 
-    # init 
-    # Start an API thread
-    api.start_api_thread(socketio)
+    # Called on development env only
+    main()
 
-    # Get domain:port from file, edit this file on deployment
-    f = open("flask_domain.txt", "r")
-    domain = f.read()
-    f.close()
 
-    # Attempt to read the file 
-    try:
-        domain = domain.split(':')
-        port = domain[1]
-        domain = domain[0]
-    except Exception as err:
-
-        # Throw an exception if there was any funny business
-        print(' [x] ERROR:', err)
-        raise Exception(" Couldn't read " + str(path) + "\"" + "flask_domain.txt. < Syntax: domain:port >")
-
-    socketio.run(app, host=domain, port=port)
+# We need to call this on production since __name__ is not __main__
+main()

@@ -72,6 +72,9 @@ export default class index extends Component
             {
                 // Parse the json string 
                 const obj = JSON.parse(json_response);
+                
+                // For debug
+                //console.log('data:' + json_response);
 
                 // We have price 
                 if(obj.hasOwnProperty('price'))

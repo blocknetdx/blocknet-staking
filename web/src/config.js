@@ -1,5 +1,5 @@
 module.exports = {
     server: {
-        url: 'http://localhost:5001'
+        url: 'http://127.0.0.1:3000'
     }
 }

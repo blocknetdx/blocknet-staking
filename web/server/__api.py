@@ -41,7 +41,7 @@ def start_api_thread(obj):
     global parent_socket
 
     parent_socket = obj
-    threading.Thread(target=API_calls).start()
+    threading.Thread(target=API_calls, daemon=True).start()
 
 
 def API_calls():
@@ -53,6 +53,15 @@ def API_calls():
     global supply
     global raised
     global staking 
+
+    x = {
+        "data": 'calling thread!'
+    }
+
+    json_response = json.dumps(x)
+
+    # Echo the json back to client
+    parent_socket.emit('message', json_response)
 
     curr = 1
     now = 0.0
