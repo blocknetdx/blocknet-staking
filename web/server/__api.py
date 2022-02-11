@@ -54,15 +54,6 @@ def API_calls():
     global raised
     global staking 
 
-    x = {
-        "data": 'calling thread!'
-    }
-
-    json_response = json.dumps(x)
-
-    # Echo the json back to client
-    parent_socket.emit('message', json_response)
-
     curr = 1
     now = 0.0
     last = -0.1
