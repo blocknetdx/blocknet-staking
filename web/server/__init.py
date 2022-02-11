@@ -20,7 +20,7 @@ app = Flask(__name__)
 # Set static folder as our compiled React project 
 app = Flask(__name__, static_url_path='', static_folder=static_index)
 
-# Remove cors_allowed_origins="*" on deployment 
+# We actually need cors enabled
 socketio = sio(app, async_mode='threading', cors_allowed_origins="*", async_handlers=True)
 
 
