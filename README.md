@@ -1,4 +1,4 @@
-# Local installation
+# Running a local dev environment
 
 ## => Build the React app
 
@@ -18,7 +18,7 @@ To start the server run `__init.py`
 
 App runs on port 5001 which may be changed if necessary (`/web/src/config.js` & `/web/server/flask_domain.txt`)
 
-# Deployment
+# Running a docker container
 
 ## => Build the docker image and run it 
 
