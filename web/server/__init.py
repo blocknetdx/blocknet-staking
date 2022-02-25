@@ -90,7 +90,8 @@ def main():
 
     # If we're not running via prod&Gunicorn we need to call socketio.run
     if not prod:
-        # Get domain:port from file, edit this file on deployment
+      
+        # Get local ip:port from file
         f = open("flask_domain.txt", "r")
         domain = f.read()
         f.close()
