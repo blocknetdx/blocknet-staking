@@ -11,51 +11,43 @@
 /* 2 titles on top */
 .top {
     /* padding-left: 8.5vw; */
-    padding:0 80px;
-    padding-top: 94px;
-    margin: 0 324.5px 20px 349.5px;
+    padding:160px 0 20px;
+    margin: 0 auto;
 }
 
 /* Blocknet staking calculator */
 .top .title {
     color: var(--text-color-0);
-    margin: 0px 0 20px;
+    margin: 0 auto;
     transition: .3s ease;
-    padding-top: 94px;
-    padding-bottom: 5px;
-
-    width: 520px;
-    height: 52px;
+    padding-bottom: 20px;
     flex-grow: 0;
     font-size: 40px;
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #fff;
 }
 
 /* With the tool below you can calculate your staking reward in $BLOCK. */
 .top .sub_tool {
-    margin: 0;
+    margin: 0 auto;
     font-size: 18px;
     transition: .3s ease;
     text-align: center;
-    width: 532px;
-    height: 23px;
     flex-grow: 0;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.41px;
     color: #fff;
 }
 
 .inputs {
     width: 100%;
+    padding: 20px 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -358,32 +350,42 @@
 
 .errnotif {
     text-align: center;
+    height: 10px;
 }
 
 .errnotif span {
-    color: #e32929;
+    /* color: #e32929; */
+    color: #242424;
     font-weight: 300;
     transition: .3s ease;
-    font-size: 15px;
+    font-size: 0.1px;
     position: relative;
     bottom: -5px;
 }
 
 /* Staking estimates */
 .outputs {
-    width: 100%;
+    /* width: 100%; */
+    padding: 10px 0 60px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 12px 0;
+    flex-direction: row;
     transition: .3s ease;
+    padding: 0 10%;
 }
 
 .outputs .block {
-    margin: 0 12px;
+    /* margin: 0 12px; */
     position: relative;
-    padding-left: 25px;
-    padding-right: 25px;
+    /* padding-left: 25px;
+    padding-right: 25px; */
+    padding: 0 30px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1 1;
 }
 
 /* Daily / monthly / yearly / apr title */
@@ -494,10 +496,10 @@
 }
 
 /* "Staking rewards" */
-.title_reward {
+.title_rewards {
     color: var(--text-color-0);
-    margin: 18px 0 12px;
-    font-size: 22px;
+    /* margin: 18px 0 12px; */
+    font-size: 28px;
     font-weight: 600;
     transition: .3s ease;
     text-align: left;
@@ -511,8 +513,7 @@
 }
 
 .text {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 40px 0 80px;
 }
 
 /* Paragraphs on bottom */
@@ -548,16 +549,17 @@
 }
 
 .bottom .text .area .txt {
-    width: 70%;
-    color: var(--text-color-1);
+    /* width: 70%; */
+    padding-right: 20px;
     font-size: 16px;
-    margin: 0 auto;
-    float: right;
+    /* margin: 0 auto;
+    float: right; */
 }
 
 .bottom .text .area .txt2 {
-    float: left;
-    margin: 0 0 0 22px;
+    padding-left: 20px;
+    /* float: left;
+    margin: 0 0 0 22px; */
 }
 
 /* bottom divs adjusting */
@@ -580,20 +582,24 @@
 
 .bottom .text {
     position: relative;
-    left: 70px;
-    padding-left: 14px;
-    padding-top: 10px !important;
+    /* left: 70px; */
+    /* padding-left: 14px; */
+    /* padding-top: 10px !important; */
 }
 
 .bottom .title_reward {
     position: relative;
-    left: 70px;
+    /* left: 70px; */
 }
 
 .bottom .infocontainer {
     position: relative;
     /* left: 70px; */
     padding: 0 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .bottom .text .area {
@@ -668,11 +674,11 @@
     }
 
     .bottom .text {
-        left: 10px;
+        /* left: 10px; */
     }
     
     .bottom .title_reward {
-        left: 10px;
+        /* left: 10px; */
     }
     
     .bottom .infocontainer {
@@ -805,8 +811,11 @@
 .bottom .infocontainer .info {
     display: flex;
     justify-content: space-between;
+    display: flex;
     flex-direction: column;
-    padding: 0 3rem;
+    flex-basis: 100%;
+    flex: 1;
+    /* padding: 0 3rem; */
 }
 
 .bottom .infocontainer .info .invis {
@@ -817,17 +826,17 @@
     color: #fff;
     font-size: 15px;
     font-weight: 300;
-    margin: 15px 0 0 0;
+    margin: 0;
     text-align: left;
-    min-width: 240px;
-    padding-bottom: 4px;
+    /* min-width: 240px; */
+    /* padding-bottom: 4px; */
 }
 
 .bottom .infocontainer .info .sub {
     color: var(--text-color-0);
     font-size: 22px;
     font-weight: 500;
-    margin-top: -5px;
+    /* margin-top: -5px; */
     text-align: left;
 }
 
@@ -835,18 +844,18 @@
     font-size: 12px;
 }
 
-.infocontainer {
+/* .infocontainer {
     display: flex ;
     flex-wrap: wrap ;
-}
+} */
 
 .info {
     width: 100%;
 }
 
 .infocontainer > div {
-    flex: 0 16%;
-    width: 90px;
+    flex: 0 25%;
+    /* width: 90px; */
     margin-bottom: 10px;
 }
 
@@ -902,7 +911,7 @@
     }
 
     .bottom .title_reward {
-        padding-left: 135px !important;
+        /* padding-left: 135px !important; */
     }
 
     .bottom .infocontainer .info {
@@ -914,16 +923,16 @@
     }
     
     .infocontainer > div {
-        flex: 0 16%;
-        width: 90px;
+        /* flex: 0 16%;
+        width: 90px; */
         margin-bottom: 10px;
     }
 
     /* bottom divs adjusting */
     .bottom .text > div {
-        flex: 0 35.0%;
+        /* flex: 0 35.0%; */
         padding: 10px;
-        padding-left: 120px !important;
+        /* padding-left: 120px !important; */
     }
 
     .bottom .text {
@@ -932,15 +941,15 @@
     }
 
     .bottom .text {
-        left: -5px;
+        /* left: -5px; */
     }
     
     .bottom .title_reward {
-        left: -5px;
+        /* left: -5px; */
     }
     
     .bottom .infocontainer {
-        left: -5px;
+        /* left: -5px; */
     }
 }
 
@@ -957,7 +966,7 @@
     }
 
     .bottom .infocontainer .info {
-        padding: 0 2.4rem;
+        /* padding: 0 2.4rem; */
     }
 
     .info {
@@ -965,8 +974,8 @@
     }
     
     .infocontainer > div {
-        flex: 0 16%;
-        width: 90px;
+        /* flex: 0 16%;
+        width: 90px; */
         margin-bottom: 10px;
     }
 
@@ -995,17 +1004,21 @@
 @media screen and (max-width: 820px) {
 
     .bottom .infocontainer {
-        left: 10px !important;
-        width: 80%;
+        /* left: 10px !important; */
+        /* width: 80%; */
         /* padding-left: 150px !important; */
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 2;
     }
 
     .bottom .title_reward {
-        padding-left: 175px !important;
+        /* padding-left: 175px !important; */
     }
 
     .bottom .infocontainer .info {
-        padding: 0 2.1rem;
+        /* padding: 0 2.1rem; */
     }
 
     .info {
@@ -1013,23 +1026,23 @@
     }
     
     .infocontainer > div {
-        flex: 0 15.6%;
-        width: 90px;
+        /* flex: 0 15.6%;
+        width: 90px; */
         margin-bottom: 10px;
     }
 
     /* bottom divs adjusting */
     .bottom .text > div {
-        flex: 0 25.0%;
+        /* flex: 0 25.0%;
         padding: 10px;
-        padding-left: 180px !important;
+        padding-left: 180px !important; */
     }
 
     .bottom .text {
         white-space: normal !important;
         margin: auto !important;
         position: relative;
-        right: -10px !important;
+        /* right: -10px !important; */
     }
 }
 
@@ -1119,20 +1132,20 @@
 
     .infocontainer {
         position: relative;
-        right: 45px;
+        /* right: 45px; */
     }
 
     .infocontainer {
-        max-width: 200% !important;
+        /* max-width: 200% !important; */
     }
 
     .infocontainer > div {
-        flex: 0 29.6% !important;
+        /* flex: 0 29.6% !important; */
         margin-bottom: 10px;
     }
 
     .bottom .infocontainer .info {
-        padding: 0 2.1rem !important;
+        /* padding: 0 2.1rem !important; */
     }
 
     .bottom .infocontainer .title {
@@ -1142,23 +1155,23 @@
     }
 
     .bottom .title_reward {
-        padding-left: 0px !important;
+        /* padding-left: 0px !important; */
         position: relative;
-        right: 10px;
-        left: -10px !important;
+        /* right: 10px;
+        left: -10px !important; */
     }
 
     .bottom .infocontainer {
-        left: -45px !important;
-        padding-left: 0px !important;
+        /* left: -45px !important;
+        padding-left: 0px !important; */
     }
 
     .bottom .text > div {
-        padding-left: 0px !important;
+        /* padding-left: 0px !important; */
     }
 
     .bottom .text {
-        left: -30px !important;
+        /* left: -30px !important; */
     }
 
     .outputs {
@@ -1275,33 +1288,33 @@
     }
 
     .infocontainer > div {
-        flex: 0 30%;
+        /* flex: 0 30%; */
         margin-bottom: 10px;
         padding: 0 !important;
-        padding-left: 0px !important;
+        /* padding-left: 0px !important; */
     }
 
     .bottom .infocontainer .info {
-        padding: 0 2.6rem !important;
+        /* padding: 0 2.6rem !important; */
     }
 
     .bottom .title_reward {
-        padding-left: 0px !important;
+        /* padding-left: 0px !important; */
         position: relative;
-        right: 0px;
-        left: -0px !important;
+        /* right: 0px;
+        left: -0px !important; */
     }
 
     .infocontainer {
         position: relative;
-        right: 40px;
+        /* right: 40px; */
     }
 
     .text {
-        right: 15px;
+        /* right: 15px; */
         position: relative;
         padding-top: 0 !important;
-        padding-bottom: 140px !important;
+        padding-bottom: 80px !important;
     }
 
     .area {
@@ -1309,7 +1322,7 @@
     }
 
     .text .area {
-        padding-bottom: 5px !important;
+        /* padding-bottom: 5px !important; */
     }
 
     .bottom .text .area .txt {
@@ -1317,15 +1330,15 @@
     }
 
     .bottom .text {
-        left: -20px !important;
+        /* left: -20px !important;
         padding-left: 14px;
-        padding-top: 10px !important;
+        padding-top: 10px !important; */
     }
 
     .bottom .text .area {
-        padding-left: 30px;
+        /* padding-left: 30px;
         padding-top: 0px !important;
-        width: 90% !important;
+        width: 90% !important; */
     }
 
     .bottom .text > div {
@@ -1334,7 +1347,7 @@
         margin: auto !important;
         overflow-x: auto;
         white-space: normal;
-        right: 25px;
+        /* right: 25px; */
     }
 
 }
@@ -1350,14 +1363,14 @@
 
     .top .title {
         max-width: 90% !important;
-        height: 52px !important;
+        /* height: 52px !important; */
         margin: auto !important;
         padding-bottom: 20px !important;
     }
 
     .top .sub_tool {
         max-width: 80% !important;
-        height: 52px !important;
+        /* height: 52px !important; */
         margin: auto !important;
     }
 
@@ -1451,7 +1464,7 @@
     }
 
     .bottom .title_reward {
-        left: -10px !important;
+        /* left: -10px !important; */
     }
 
     .bottom .infocontainer .info {
@@ -1680,10 +1693,10 @@
     }
 
     .bottom .title_reward {
-        padding-left: 0px !important;
+        /* padding-left: 0px !important; */
         position: relative;
-        right: 0px;
-        left: 20px !important;
+        /* right: 0px;
+        left: 20px !important; */
     }
 
     .bottom .infocontainer .info {
@@ -1719,7 +1732,7 @@
     }
 
     .errnotif  {
-        max-width: 250px;
+        max-width: 90%;
     }
 
     .bottom .text > div {
@@ -1772,13 +1785,13 @@
         display: block;
     }
 
-    .title_reward {
+    /* .title_reward {
         padding-left: 14px;
-    }
+    } */
 
-    .bottom .title_reward {
+    /* .bottom .title_reward {
         left: -10px !important;
-    }
+    } */
 
     .title {
         font-size: 1.8rem;
@@ -1905,11 +1918,11 @@
         left: -10px;
     }
 
-    .bottom .title_reward {
+    /* .bottom .title_reward {
         position: relative;
         right: 10px;
         left: -10px;
-    }
+    } */
 
     .outputs .block p {
         font-size: 15px;
@@ -2121,8 +2134,8 @@
 
     .bottom .title_reward {
         position: relative;
-        right: 0px !important;
-        left: 0.0vw !important;
+        /* right: 0px !important;
+        left: 0.0vw !important; */
     }
 
     .bottom .text {
@@ -2240,8 +2253,8 @@
 
     .bottom .title_reward {
         position: relative;
-        right: 0px !important;
-        left: 40px !important;
+        /* right: 0px !important;
+        left: 40px !important; */
     }
 
     /* Inputs */

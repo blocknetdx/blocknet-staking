@@ -20,7 +20,7 @@ var changedPrice = false;   // Has client changed price yet
 let currentBlock;           // Amount of BLOCK client set on input
 
 // If there was problems with API requests
-let errorMsg = "NOTE: There was an error fetching updated price data!";
+let errorMsg = "There was an issue fetching updated price data, but you can continue using the app.";
 
 
 export default class index extends Component 
@@ -571,7 +571,7 @@ export default class index extends Component
 
                     <div className={styles.bottom}>
 
-                        <h2 className={styles.title_reward}>Staking Rewards</h2>
+                        <h2 className={styles.title_rewards}>Staking Rewards</h2>
 
                         <div className={styles.infocontainer}>
                             <div className={`${styles.info} ${styles.first}`}>
@@ -601,8 +601,8 @@ export default class index extends Component
                         
                         <div className={styles.text}>
                             <div className={styles.area}>
-                                <span className={`${styles.txt} ${styles.txt2}`}>
-                                    <h2 className={`${styles.title} ${styles.t_two}`}>Probability of Earning a Reward</h2>
+                                <span className={`${styles.txt} ${styles.txt}`}>
+                                    <h2 className={`${styles.title} ${styles.t_one}`}>Probability of Earning a Reward</h2>
                                     The selection of the staker that confirms each block is probability-based. This means
                                     that everyone's chance of being selected to confirm the next block is equal to the amount
                                     of BLOCK staking divided by the total amount of BLOCK being staked on the network.
@@ -615,8 +615,8 @@ export default class index extends Component
                             </div>
 
                             <div className={styles.area}>
-                                <span className={styles.txt}>
-                                    <h2 className={`${styles.title} ${styles.t_one}`}>ROI</h2>
+                                <span className={styles.txt2}>
+                                    <h2 className={`${styles.title} ${styles.t_two}`}>ROI</h2>
                                     The following equation can be derived to estimate the yearly return (in BLOCK) or the initial amount
                                     started with. This does not account for compounding, which would increase this value.
                                     <br></br><br></br>

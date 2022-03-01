@@ -43,6 +43,7 @@ body {
   display: flex;
   justify-content: center;
   overflow-x: hidden;
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
