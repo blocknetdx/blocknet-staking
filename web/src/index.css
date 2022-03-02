@@ -35,14 +35,14 @@
 }
 
 body {
-  width: 100%;
+  /* width: 100%; */
   font-family: 'IBM Plex Sans', sans-serif;
   background: var(--bg-color-0);
-  padding: 0;
-  margin: 0;
-  display: flex;
+  /* padding: 0;
+  margin: 0; */
+  /* display: flex;
   justify-content: center;
-  overflow-x: hidden;
+  overflow-x: hidden; */
   color: #fff;
 }
 
