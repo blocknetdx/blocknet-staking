@@ -368,7 +368,7 @@
 
 /* Staking estimates */
 .outputs {
-    width: 75%;
+    width: 80%;
     padding: 10px 0 60px;
     display: flex;
     justify-content: center;
@@ -380,7 +380,7 @@
 
 .outputs .block {
     position: relative;
-    padding: 0 30px;
+    padding: 0 20px;
     justify-content: space-between;
     display: flex;
     flex-direction: column;
@@ -946,7 +946,7 @@
 
 @media screen and (min-width:1180px) {
     .outputs {
-        width: 75%;
+        width: 66%;
     }
 }
 @media screen and (max-width: 710px) {
