@@ -22,9 +22,9 @@ App runs on port 5001 which may be changed if necessary (`/web/src/config.js` & 
 
 ## => Build the docker image and run it 
 
-`docker build -t python-flask .` to build a docker image
+`docker build -t staking-calc .` to build a docker image
 
-`docker run --rm -p 3000:3000 python-flask` to start the docker container (runs on port 3000)
+`docker run --rm -p 3000:3000 staking-calc` to start the docker container (runs on port 3000)
 
 • NOTE: Socket IO should be configured to run on server IP. 
 Currently set for 0.0.0.0 (127.0.0.1): ![img](https://i.gyazo.com/bd057a80b8b48762082ea266dba57e3c.png)

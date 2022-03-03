@@ -1,6 +1,9 @@
 
 .container {
+    max-width: 100%;
     overflow-x: hidden !important;
+    padding: 0 80px;
+    margin: 0 auto;
 }
 
 ::-webkit-scrollbar-thumb:horizontal {
@@ -10,51 +13,44 @@
 
 /* 2 titles on top */
 .top {
-    padding-left: 8.5vw;
-    padding-top: 94px;
-    margin: 0 324.5px 20px 349.5px;
+    /* padding-left: 8.5vw; */
+    padding:160px 0 20px;
+    margin: 0 auto;
 }
 
 /* Blocknet staking calculator */
 .top .title {
     color: var(--text-color-0);
-    margin: 0px 0 20px;
+    margin: 0 auto;
     transition: .3s ease;
-    padding-top: 94px;
-    padding-bottom: 5px;
-
-    width: 520px;
-    height: 52px;
+    padding-bottom: 20px;
     flex-grow: 0;
     font-size: 40px;
     font-weight: 600;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: normal;
     text-align: center;
     color: #fff;
 }
 
 /* With the tool below you can calculate your staking reward in $BLOCK. */
 .top .sub_tool {
-    margin: 0;
+    margin: 0 auto;
     font-size: 18px;
     transition: .3s ease;
     text-align: center;
-    width: 532px;
-    height: 23px;
     flex-grow: 0;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: -0.41px;
     color: #fff;
 }
 
 .inputs {
     width: 100%;
+    padding: 20px 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -357,32 +353,40 @@
 
 .errnotif {
     text-align: center;
+    height: 10px;
 }
 
 .errnotif span {
-    color: #e32929;
+    /* color: #e32929; */
+    color: #242424;
     font-weight: 300;
     transition: .3s ease;
-    font-size: 15px;
+    font-size: 0.1px;
     position: relative;
     bottom: -5px;
 }
 
 /* Staking estimates */
 .outputs {
-    width: 100%;
+    width: 80%;
+    padding: 10px 0 60px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 12px 0;
+    flex-direction: row;
     transition: .3s ease;
+    margin: 0 auto;
 }
 
 .outputs .block {
-    margin: 0 12px;
     position: relative;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding: 0 20px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1 1;
+    text-align: left;
 }
 
 /* Daily / monthly / yearly / apr title */
@@ -472,6 +476,8 @@
     display: flex;
     flex-direction: column;
     margin: auto;
+    /* padding: 0 80px !important; */
+    text-align: left;
 }
 
 /* info titles */
@@ -492,15 +498,16 @@
 }
 
 /* "Staking rewards" */
-.title_reward {
+.title_rewards {
     color: var(--text-color-0);
-    margin: 18px 0 12px;
-    font-size: 22px;
+    /* margin: 18px 0 12px; */
+    font-size: 28px;
     font-weight: 600;
     transition: .3s ease;
     text-align: left;
-    padding-top: 20px;
-    padding-left: 47px;
+    /* padding-top: 20px;
+    padding-left: 47px; */
+    padding:20px 0px;
 }
 
 .txt_nums {
@@ -508,24 +515,22 @@
 }
 
 .text {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding: 40px 0 80px;
 }
 
 /* Paragraphs on bottom */
 .bottom .text {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 
 .bottom .text .area .title {
-    font-size: 16px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
+    font-size: 22px;
+    font-weight: 500;
 }
 
-.bottom .text .area .t_one::after {
+/* .bottom .text .area .t_one::after {
     content: "";
     height: 1px;
     width: 100px;
@@ -533,35 +538,34 @@
     padding: 0 12px;
     background: var(--bg-color-2);
     display: block;
-}
+} */
 
-.bottom .text .area .t_two::before {
+/* .bottom .text .area .t_two::before {
     content: "";
     height: 1px;
     width: 100px;
     margin: 0 6px;
     background: var(--bg-color-2);
     display: block;
-}
+} */
 
-.bottom .text .area .txt {
-    width: 70%;
-    color: var(--text-color-1);
+/* .bottom .text .area .txt {
+   
+    padding-right: 20px;
     font-size: 16px;
-    margin: 0 auto;
-    float: right;
+   
 }
 
 .bottom .text .area .txt2 {
-    float: left;
-    margin: 0 0 0 22px;
-}
+    padding-left: 20px;
+   
+} */
 
 /* bottom divs adjusting */
-.bottom .text > div {
+/* .bottom .text > div {
     flex: 0 44.0%;
     padding: 30px;
-}
+} */
 
 .area {
     padding-top: 0px !important;
@@ -575,32 +579,27 @@
     float: none;
 }
 
-.bottom .text {
-    position: relative;
-    left: 70px;
-    padding-left: 14px;
-    padding-top: 10px !important;
-}
-
 .bottom .title_reward {
     position: relative;
-    left: 70px;
 }
 
 .bottom .infocontainer {
     position: relative;
-    left: 70px;
+    padding:10px 30px 40px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
-.bottom .text .area {
+/* .bottom .text .area {
     padding-left: 30px;
     padding-top: 0px;
     width: 704px;
-}
+} */
 
 .bottom .text .area .txt .t_one {
     font-size: 16px;
-    padding-top: 20px !important;
 }
 
 .bottom .text .area .title .t_two {
@@ -620,64 +619,22 @@
 }
 
 .bottom .text .area {
-    padding-bottom: 30px !important;
+    padding-bottom: 30px;
+    flex: 1 1;
 }
 
-@media screen and (max-width: 1672px) {
-    .top {
-        padding-left: 9.7vw !important;
-    }
+.bottom .text .area .col1 {
+    padding-right: 30px;
 }
-
-@media screen and (max-width: 1515px) {
-    .top {
-        padding-left: 9.2vw !important;
-    }
-}
-
-@media screen and (max-width: 1469px) {
-    .top {
-        padding-left: 8vw !important;
-    }
-}
-
-@media screen and (max-width: 1408px) {
-    .top {
-        padding-left: 7vw !important;
-    }
-}
-
-@media screen and (max-width: 1385px) {
-    .top {
-        padding-left: 5vw !important;
-    }
-}
-
-@media screen and (max-width: 1313px) {
-    .top {
-        padding-left: 3.5vw !important;
-    }
-
-    .bottom {
-        max-width: 86%;
-    }
-
-    .bottom .text {
-        left: 10px;
-    }
-    
-    .bottom .title_reward {
-        left: 10px;
-    }
-    
-    .bottom .infocontainer {
-        left: 10px;
-    }
+.bottom .text .area .col2 {
+    padding-left: 30px;
 }
 
 /* Tooltip resizing behavior */
-@media only screen and (min-width: 769px) and (max-width: 991px) {
-
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .container {
+        padding: 0 40px;
+    }
     .infoArrow {
         left: 320px !important;
         right: 0px;
@@ -694,8 +651,10 @@
     }
 }
 
-@media only screen and (min-width: 580px) and (max-width: 769px)  {
-
+@media only screen and (min-width: 580px) and (max-width: 767px) {
+    .container {
+        padding: 0 30px;
+    }
     .outputs .block .apr {
         right: 15px !important;
         max-width: 275%;
@@ -708,73 +667,11 @@
     }
 }
 
-@media (max-width: 580px) {
 
-    .infoArrow {
-        top: -10px !important;
-        left: 20px !important;
-        right: -10px !important;
+@media only screen and (min-width: 240px) and (max-width: 480px)  {
+    .container {
+        padding: 0 15px;
     }
-
-    .outputs .block .apr {
-        width: 340px !important;
-        right: 15px !important;
-    }
-}
-
-@media (max-width: 568px) {
-
-    .infoArrow {
-        top: 0px !important;
-        left: 20px !important;
-        right: -15px !important;
-    }
-
-    .outputs .block .apr {
-        width: 340px !important;
-        right: 15px !important;
-    }
-}
-
-@media (max-width: 545px) {
-
-    .infoArrow {
-        top: 3px !important;
-        left: 20px !important;
-        right: -10px !important;
-    }
-
-    .outputs .block .apr {
-        width: 340px !important;
-        right: 10px !important;
-    }
-}
-
-@media only screen and (min-width: 536px) and (max-width: 540px)  {
-
-    .infoArrow {
-        top: 3px !important;
-        left: 120px !important;
-        right: 57px;
-    }
-}
-
-@media (max-width: 535px) {
-
-    .infoArrow {
-        top: 4px !important;
-        left: 65px !important;
-        right: -20px !important;
-    }
-
-    .outputs .block .apr {
-        width: 340px !important;
-        right: 20px !important;
-    }
-}
-
-@media only screen and (min-width: 116px) and (max-width: 480px)  {
-
     .infoArrow {
         top: 53px;
         left: 214px !important;
@@ -793,15 +690,17 @@
 
 .bottom .infocontainer {
     width: 100%;
+    padding: 0 0 30px;
     transition: .3s ease;
-    padding-left: 0px;
 }
 
 .bottom .infocontainer .info {
     display: flex;
     justify-content: space-between;
+    display: flex;
     flex-direction: column;
-    padding: 0 3rem;
+    flex-basis: 100%;
+    flex: 1;
 }
 
 .bottom .infocontainer .info .invis {
@@ -812,17 +711,17 @@
     color: #fff;
     font-size: 15px;
     font-weight: 300;
-    margin: 15px 0 0 0;
+    margin: 0;
     text-align: left;
-    min-width: 240px;
-    padding-bottom: 4px;
+    /* min-width: 240px; */
+    /* padding-bottom: 4px; */
 }
 
 .bottom .infocontainer .info .sub {
     color: var(--text-color-0);
     font-size: 22px;
     font-weight: 500;
-    margin-top: -5px;
+    /* margin-top: -5px; */
     text-align: left;
 }
 
@@ -830,18 +729,13 @@
     font-size: 12px;
 }
 
-.infocontainer {
-    display: flex ;
-    flex-wrap: wrap ;
-}
-
 .info {
     width: 100%;
 }
 
 .infocontainer > div {
-    flex: 0 16%;
-    width: 90px;
+    flex: 0 25%;
+    /* width: 90px; */
     margin-bottom: 10px;
 }
 
@@ -861,180 +755,12 @@
     }
 }
 
-@media only screen and (min-width: 1090px) and (max-width: 1090px) {
-
-    .infoArrow {
-        top: 31px !important;
-        left: 304px !important;
-        right: 0px;
-    }
-
-    .apr {
-        top: -5px !important;
-        right: -10px !important;
-    }
-}
-
-@media screen and (max-width: 1160px) {
-
-    .bottom {
-        margin: auto !important;
-        max-width: 86% !important;
-        justify-content: center !important;
-    }
-}
-
-
-@media screen and (max-width: 1060px) {
-
-    .bottom {
-        max-width: 90% !important;
-    }
-
-    .bottom .infocontainer {
-        width: 80%;
-        padding-left: 95px !important;
-    }
-
-    .bottom .title_reward {
-        padding-left: 135px !important;
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.4rem;
-    }
-
-    .info {
-        width: 100%;
-    }
-    
-    .infocontainer > div {
-        flex: 0 16%;
-        width: 90px;
-        margin-bottom: 10px;
-    }
-
-    /* bottom divs adjusting */
-    .bottom .text > div {
-        flex: 0 35.0%;
-        padding: 10px;
-        padding-left: 120px !important;
-    }
-
-    .bottom .text {
-        white-space: normal !important;
-        margin: auto !important;
-    }
-
-    .bottom .text {
-        left: -5px;
-    }
-    
-    .bottom .title_reward {
-        left: -5px;
-    }
-    
-    .bottom .infocontainer {
-        left: -5px;
-    }
-}
-
-@media screen and (max-width: 940px) {
-
-    .bottom .infocontainer {
-        width: 80%;
-        padding-left: 115px !important;
-    }
-
-    .bottom .title_reward {
-        padding-left: 155px !important;
-
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.4rem;
-    }
-
-    .info {
-        width: 100%;
-    }
-    
-    .infocontainer > div {
-        flex: 0 16%;
-        width: 90px;
-        margin-bottom: 10px;
-    }
-
-    .bottom .title_reward {
-        left: 20px !important;
-    }
-
-    .bottom .infocontainer {
-        left: 20px !important;
-    }
-
-    /* bottom divs adjusting */
-    .bottom .text > div {
-        flex: 0 28.0%;
-        padding: 10px;
-        padding-left: 160px !important;
-    }
-
-    .bottom .text {
-        white-space: normal !important;
-        margin: auto !important;
-    }
-}
-
-
-@media screen and (max-width: 820px) {
-
-    .bottom .infocontainer {
-        left: 10px !important;
-        width: 80%;
-        padding-left: 150px !important;
-    }
-
-    .bottom .title_reward {
-        padding-left: 175px !important;
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.1rem;
-    }
-
-    .info {
-        width: 100%;
-    }
-    
-    .infocontainer > div {
-        flex: 0 15.6%;
-        width: 90px;
-        margin-bottom: 10px;
-    }
-
-    /* bottom divs adjusting */
-    .bottom .text > div {
-        flex: 0 25.0%;
-        padding: 10px;
-        padding-left: 180px !important;
-    }
-
-    .bottom .text {
-        white-space: normal !important;
-        margin: auto !important;
-        position: relative;
-        right: -10px !important;
-    }
-}
-
-
 /* ************** /
 
     Tablet Version 
 
 / ************** */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
 
     .inputs .block .input p {
         top: 14px;
@@ -1095,7 +821,8 @@
     }
 
     .outputs {
-        align-items: center; 
+        width: 100%;
+        padding: 10px 0 60px;
     }
 
     .outputs .block p {
@@ -1108,61 +835,16 @@
         flex-wrap: wrap; 
     }
 
+    .bottom .title_rewards {
+        padding: 20px 0;
+    }
+
     .info {
         width: 100%;
     }
 
-    .infocontainer {
-        position: relative;
-        right: 45px;
-    }
-
-    .infocontainer {
-        max-width: 200% !important;
-    }
-
-    .infocontainer > div {
-        flex: 0 29.6% !important;
-        margin-bottom: 10px;
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.1rem !important;
-    }
-
-    .bottom .infocontainer .title {
-        word-wrap: break-word !important;
-        white-space: initial !important;
-        font-size: 14px !important;
-    }
-
-    .bottom .title_reward {
-        padding-left: 0px !important;
-        position: relative;
-        right: 10px;
-        left: -10px !important;
-    }
-
-    .bottom .infocontainer {
-        left: -45px !important;
-        padding-left: 0px !important;
-    }
-
-    .bottom .text > div {
-        padding-left: 0px !important;
-    }
-
-    .bottom .text {
-        left: -30px !important;
-    }
-
-    .outputs {
-        padding-left: 7px;
-    }
-
     .outputs .block {
-        padding-left: 1px !important;
-        padding-right: 1px !important;
+        padding: 0;
     }
 
     .outputs .block p {
@@ -1182,6 +864,10 @@
         padding-bottom: 10px;
     }
 
+    .bottom .infocontainer .info {
+        flex: 2 1 50%
+    }
+
     .bottom .infocontainer .sub {
         font-size: 20px !important;
     }
@@ -1191,10 +877,9 @@
     }
 
     .text {
-        right: 35px !important;
         position: relative;
-        padding-top: 0 !important;
-        padding-bottom: 140px !important;
+        padding-top: 0;
+        padding-bottom: 140px;
     }
 
     .area {
@@ -1209,16 +894,18 @@
         float: none;
     }
 
-    .bottom .text {
-        padding-left: 14px;
-        padding-top: 10px !important;
+    .bottom .text .area .col1 {
+        padding-right: 0px;
+    }
+    .bottom .text .area .col2 {
+        padding-left: 0px;
     }
 
-    .bottom .text .area {
+    /* .bottom .text .area {
         padding-left: 30px;
         padding-top: 0px !important;
         width: 704px !important;
-    }
+    } */
 
     .bottom .text > div {
         flex: 0 100.0% !important;
@@ -1257,6 +944,11 @@
     }
 }
 
+@media screen and (min-width:1180px) {
+    .outputs {
+        width: 66%;
+    }
+}
 @media screen and (max-width: 710px) {
 
     /* Inputs  */
@@ -1270,57 +962,15 @@
     }
 
     .infocontainer > div {
-        flex: 0 30%;
-        margin-bottom: 10px;
-        padding: 0 !important;
-        padding-left: 0px !important;
+        
     }
 
     .bottom .infocontainer .info {
-        padding: 0 2.6rem !important;
+       
     }
 
-    .bottom .title_reward {
-        padding-left: 0px !important;
-        position: relative;
-        right: 0px;
-        left: -0px !important;
-    }
-
-    .infocontainer {
-        position: relative;
-        right: 40px;
-    }
-
-    .text {
-        right: 15px;
-        position: relative;
-        padding-top: 0 !important;
-        padding-bottom: 140px !important;
-    }
-
-    .area {
-        padding-top: 0px !important;
-    }
-
-    .text .area {
-        padding-bottom: 5px !important;
-    }
-
-    .bottom .text .area .txt {
-        float: none;
-    }
-
-    .bottom .text {
-        left: -20px !important;
-        padding-left: 14px;
-        padding-top: 10px !important;
-    }
-
-    .bottom .text .area {
-        padding-left: 30px;
-        padding-top: 0px !important;
-        width: 90% !important;
+    .bottom .title_rewards {
+       
     }
 
     .bottom .text > div {
@@ -1329,14 +979,13 @@
         margin: auto !important;
         overflow-x: auto;
         white-space: normal;
-        right: 25px;
     }
 
 }
 
 @media screen and (max-width: 608px) {
 
-    .top {
+    /* .top {
         margin: 0 !important;
         align-items: center !important;
         text-align: center !important;
@@ -1345,18 +994,18 @@
 
     .top .title {
         max-width: 90% !important;
-        height: 52px !important;
+       
         margin: auto !important;
         padding-bottom: 20px !important;
     }
 
     .top .sub_tool {
         max-width: 80% !important;
-        height: 52px !important;
+       
         margin: auto !important;
     }
 
-    /* Staking estimates */
+    
     .outputs {
         width: 100%;
         margin: 12px 0;
@@ -1366,22 +1015,20 @@
         margin: 0 1px;
         padding-left: 25px;
         padding-right: 25px;
-    }
+    } */
 
     /* Daily / monthly / yearly / apr title */
     .outputs .block p {
         margin: 30px 0 0 0;
         transition: .3s ease;
-        width: 122px;
-        padding-bottom: 5px;
     }
 
     /* Inputs  */
     .inputs {
-        max-width: 95% !important;
+        /* max-width: 95% !important; */
     }
 
-    /* BLOCK to stake: INPUT */
+    
     .inputs .block input {
         height: 2.9rem;
         width: 130px;
@@ -1434,37 +1081,10 @@
         max-width: 95% !important;
     }
 
-    .infocontainer {
-        max-width: 200% !important;
-    }
-
-    .infocontainer > div {
-        flex: 0 32% !important;
-        margin-bottom: 10px;
-        padding: 0 !important;
-        padding-left: 0px !important;
-    }
-
-    .bottom .title_reward {
-        left: -10px !important;
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.1rem !important;
-        max-width: 24vmin !important;
-        min-width: 11vmax !important;
-    }
-
     .bottom .infocontainer .title {
-        word-wrap: break-word !important;
-        white-space: initial !important;
-        font-size: 14px !important;
+        font-size: 14px;
     }
 
-    .infocontainer {
-        position: relative;
-        right: 35px;
-    }
 
     /* Inputs  */
     .block .input_pr .drop_input {
@@ -1535,18 +1155,6 @@
         margin: 0 12px;
     }
 
-    /* Staking estimates */
-    .outputs {
-        width: 100%;
-        margin: 12px 0;
-    }
-
-    .outputs .block {
-        margin: 0 1px;
-        padding-left: 25px;
-        padding-right: 25px;
-        width: 23% !important;
-    }
 
     /* Daily / monthly / yearly / apr title */
     .outputs .block p {
@@ -1557,7 +1165,7 @@
     }
 
     .bottom {
-        padding-left: 10px !important;
+        /* padding-left: 10px !important; */
     }
 }
 
@@ -1604,10 +1212,7 @@
     }
 
     .outputs .block {
-        margin: 0 1px;
-        padding-left: 3px !important;
-        padding-right: 10px !important;
-        width: 18.6% !important;
+
     }
 
     /* Staking Rewards */
@@ -1615,14 +1220,8 @@
         flex: 0 32%;
         margin-bottom: 10px;
         padding: 0 !important;
-        padding-left: 0px !important;
     }
 
-    .bottom .infocontainer .info {
-        padding: 0 2.1rem !important;
-        max-width: 28vmin !important;
-        min-width: 11vmax !important;
-    }
 
     .infoArrow {
         top: 34px !important;
@@ -1636,7 +1235,7 @@
     }
 
     .bottom {
-        padding-left: 40px !important;
+        /* padding:0 20px; */
     }
 }
 
@@ -1653,52 +1252,12 @@
         right: 5px !important;
     }
 
-    .bottom .text {
-        left: -25px !important;
-        padding-left: 0px; 
-        width: 400px;
-        padding-top: 10px !important;
-    }
-
     /* Staking Rewards */
     .infocontainer > div {
         flex: 0 33%;
         margin-bottom: 10px;
         padding: 0 !important;
         padding-left: 0px !important;
-    }
-
-    .bottom .infocontainer .info {
-        position: relative;
-        right: 0px;
-        left: 30px !important;
-    }
-
-    .bottom .title_reward {
-        padding-left: 0px !important;
-        position: relative;
-        right: 0px;
-        left: 20px !important;
-    }
-
-    .bottom .infocontainer .info {
-        padding: 0 2.1rem !important;
-        max-width: 25vmin !important;
-        min-width: 11vmax !important;
-    }
-    .outputs {
-        padding-left: 7px !important;
-    }
-
-    .outputs .block {
-        margin: 0 1px;
-        padding-left: 3px !important;
-        padding-right: 10px !important;
-        width: 17.4% !important;
-    }
-
-    .inputs {
-        padding-left: 10px !important;
     }
 }
 
@@ -1714,7 +1273,7 @@
     }
 
     .errnotif  {
-        max-width: 250px;
+        max-width: 90%;
     }
 
     .bottom .text > div {
@@ -1746,33 +1305,12 @@
         margin: auto !important;
     }
 
-    .infocontainer {
-        display: flex;
-        flex-wrap: wrap;
-        padding-left: 0;
-    }
-
     .infocontainer > div {
         flex: 0 100% !important;
-        margin-bottom: 10px;
-    }
-
-    .bottom .infocontainer .info {
-        left: 0px !important;
-        padding: 0 2.1rem !important;
-        max-width: 224vmin !important;
     }
 
     .txt_linebreak {
         display: block;
-    }
-
-    .title_reward {
-        padding-left: 14px;
-    }
-
-    .bottom .title_reward {
-        left: -10px !important;
     }
 
     .title {
@@ -1875,11 +1413,6 @@
         padding-bottom: 2px;
     }
 
-    .outputs {
-        justify-content: flex-start;
-        padding-bottom: 30px;
-        padding-left: 30px !important;
-    }
 
     .outputs .block .apr {
         right: -15px;
@@ -1888,23 +1421,10 @@
     }
 
     .outputs .block {
-        width: 40% !important;
-        padding-left: 1px !important;
-        padding-right: 1px !important;
+
     }
 
      /* Staking Rewards */
-    .bottom .infocontainer .info {
-        position: relative;
-        right: 0px;
-        left: -10px;
-    }
-
-    .bottom .title_reward {
-        position: relative;
-        right: 10px;
-        left: -10px;
-    }
 
     .outputs .block p {
         font-size: 15px;
@@ -1923,30 +1443,13 @@
         flex-direction: column;
     }
 
-    .bottom .blocks .block {
-        padding: 0 12px;
-    }
-
-    .text {
-        padding-top: 0 !important;
-        padding-bottom: 140px !important;
-    }
-
-    .area {
-        padding-top: 0px !important;
-    }
-
-    .text .area {
-        padding-bottom: 5px !important;
-    }
 
     .bottom .text .area .txt {
         float: none;
     }
 
-    .bottom .title_reward {
+    .bottom .title_rewards {
         font-size: 22px;
-        padding-bottom: 20px;
     }
 
     .bottom .infocontainer .title {
@@ -1963,20 +1466,10 @@
         font-size: 12px !important;
     }
 
-    .bottom .infocontainer .info {
-        padding: 0;
-        padding-left: 15px;
-    }
+    
 
     .bottom .infocontainer .info .invis {
         font-size: 0px;
-    }
-
-    .bottom .text {
-        left: -20px !important;
-        padding-left: 14px; 
-        width: 87.43%;
-        padding-top: 10px !important;
     }
 
     .bottom .text .area .txt .t_one {
@@ -2108,24 +1601,10 @@
         flex: 0 100%;
     }
 
-    .bottom .infocontainer .info {
-        position: relative;
-        right: 0px !important;
-        left: 2vw !important;
-    }
-
     .bottom .title_reward {
         position: relative;
-        right: 0px !important;
-        left: 0.0vw !important;
-    }
-
-    .bottom .text {
-        padding-left: 14px; 
-        width: 90%;
-        padding-top: 10px !important;
-        position: relative;
-        left: 0.2vw !important;
+        /* right: 0px !important;
+        left: 0.0vw !important; */
     }
 
     .inputs .block {
@@ -2227,16 +1706,11 @@
         flex: 0 100%;
     }
 
-    .bottom .infocontainer .info {
-        position: relative;
-        right: 0px !important;
-        left: 40px !important;
-    }
 
     .bottom .title_reward {
         position: relative;
-        right: 0px !important;
-        left: 40px !important;
+        /* right: 0px !important;
+        left: 40px !important; */
     }
 
     /* Inputs */
@@ -2260,74 +1734,10 @@
         padding-left: 35px !important;
     }
 
-    .bottom .text {
-        padding-left: 14px; 
-        width: 90%;
-        padding-top: 10px !important;
-        position: relative;
-        left: 17vw !important;
-    }
-
     .infoArrow {
         top: 60px !important;
         left: 236px !important;
         right: 0px !important;
-    }
-}
-
-/* for 4k reso, for the crazy people */
-@media (min-width: 2000px) {
-    .top {
-        padding-left: 8vw;
-    }
-}
-
-@media (min-width: 2300px) {
-    .top {
-        padding-left: 7vw;
-    }
-}
-
-@media (min-width: 2700px) {
-    .top {
-        padding-left: 6vw;
-    }
-}
-
-@media (min-width: 3050px) {
-    .top {
-        padding-left: 5vw;
-    }
-}
-
-@media (min-width: 3600px) {
-    .top {
-        padding-left: 4.3vw;
-    }
-}
-
-@media (min-width: 3800px) {
-    .top {
-        padding-left: 4.1vw;
-    }
-}
-
-/*  > MOBILE outputs fix  */
-@media (max-width: 540px) {
-
-    .outputs .block {
-        width: 200px;
-    }
-
-    .block .input_pr .drop_input {
-        padding-left: 88.437%;
-        left: 1334px;
-        padding-bottom: 2px;
-    }
-    
-    .block .input .drop_input {
-        padding-left: 92%;
-        padding-bottom: 2px;
     }
 }
 

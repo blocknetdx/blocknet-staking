@@ -9,7 +9,7 @@ export default class index extends Component {
                 <div className={styles.loader}>
                     <span className={styles.inner}></span>
                 </div>
-                <p>Hold on.. We're fetching some stuff !</p>
+                <p>Fetching live data...</p>
             </div>
         )
     }
