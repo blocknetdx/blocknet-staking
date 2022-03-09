@@ -944,11 +944,24 @@
     }
 }
 
-@media screen and (min-width:1180px) {
+@media screen and (min-width:1440px) {
+    .container {
+        padding: 0 15%;
+    }
+    .outputs {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width:1280px) {
+    .container {
+        padding: 0 10%;
+    }
     .outputs {
         width: 66%;
     }
 }
+
 @media screen and (max-width: 710px) {
 
     /* Inputs  */
