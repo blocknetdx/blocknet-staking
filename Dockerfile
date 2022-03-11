@@ -16,12 +16,6 @@ COPY web/package-lock.json ./
 
 # Run the frontend build 
 RUN npm install
-
-# Pass hostname into React
-# Create an argument that we'll declare when building the image
-ARG REACT_APP_HOSTNAME
-ENV REACT_APP_HOSTNAME $REACT_APP_HOSTNAME
-
 RUN npm run build 
 
 # Alright now we need backend 
