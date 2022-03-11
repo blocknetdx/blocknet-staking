@@ -1,0 +1,1 @@
+docker buildx build-arg REACT_APP_HOSTNAME='staking.blocknet.co' --platform linux/amd64 --push -t shrnkld/staking-calc:amd64 .

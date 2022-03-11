@@ -1,7 +1,14 @@
+// module.exports = {
+//     server: {
+//         url: 'https://staking.core.cloudchainsinc.com'
+//     }
+// }
+
+// Pull hostname from docker env vars 
+let hostname = process.env.REACT_APP_HOSTNAME;
+
 module.exports = {
     server: {
-        //url: 'http://127.0.0.1:3000'
-        //url: 'https://staking.core.cloudchainsinc.com'
-        url: 'https://staking-calc-wt22n.ondigitalocean.app'
+        url: 'https://' + hostname
     }
 }
