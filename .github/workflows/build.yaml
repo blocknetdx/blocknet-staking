@@ -1,0 +1,22 @@
+name: BUILD IMAGE
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: eks-runners
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to DockerHub
+      run: echo ${{ secrets.ORG_BLOCKNETDXIMG_PASSWORD }} | docker login --username ${{ secrets.ORG_BLOCKNETDXIMG_USERNAME }} --password-stdin
+
+    # Build images
+    - name: Build Image
+      run: docker build --build-arg REACT_APP_HOSTNAME='staking.blocknet.co' -t staking-calc .
+    - name: Change tag
+      run: docker tag staking-calc blocknetdximg/staking-calc:amd64
+    - name: Push Image
+      run: docker push blocknetdximg/staking-calc:amd64
